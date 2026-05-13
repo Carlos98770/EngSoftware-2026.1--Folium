@@ -1,5 +1,5 @@
 {
-  "name": "api-livros",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -19,7 +19,8 @@
     "express-validator": "^7.3.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.1.5"
+    "mysql2": "^3.22.3",
+    "sequelize": "^6.37.8"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
