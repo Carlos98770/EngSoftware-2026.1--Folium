@@ -1,38 +1,68 @@
-import Livro from "../models/livro.model.js";
+import sequelize from '../database/config.js';
+import { Livro, User, Genero } from '../database/associations.js';
 
 class LivroService {
     async create(dados, userId) {
-        const novoLivro = {
-            ...dados,
+        const { nome, editora, comentario, quantidade_total, generos = [] } = dados;
+
+        const livro = await Livro.create({
+            nome,
+            editora,
+            comentario,
+            quantidade_total,
+            quantidade_disponivel: quantidade_total,
             user_id: userId,
-            quantidade_disponivel: dados.quantidade_total
-        };
-        return await Livro.create(novoLivro);
+        });
+
+        if (generos.length > 0) {
+            const registros = await Promise.all(
+                generos.map((nome) => Genero.findOrCreate({ where: { nome } }))
+            );
+            await livro.setGeneros(registros.map(([g]) => g));
+        }
+
+        return await this.findById(livro.id);
     }
 
     async findAll(page = 1, limit = 10, genero = null) {
-        const skip = (page - 1) * limit;
-        const filtro = genero ? { generos: genero } : {};
+        const offset = (page - 1) * limit;
 
-        const livros = await Livro.find(filtro)
-            .populate("user_id", "nome email")
-            .skip(skip)
-            .limit(limit);
+        const where = {};
+        const include = [
+            { model: User, as: 'dono', attributes: ['id', 'nome', 'email'] },
+            { model: Genero, as: 'generos', attributes: ['id', 'nome'], through: { attributes: [] } },
+        ];
 
-        const total = await Livro.countDocuments(filtro);
+        if (genero) {
+            include[1].where = { nome: genero };
+            include[1].required = true;
+        }
+
+        const { rows: data, count: total } = await Livro.findAndCountAll({
+            where,
+            include,
+            distinct: true,
+            limit,
+            offset,
+        });
 
         return {
-            data: livros,
+            data,
             total,
             page,
-            totalPages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit),
         };
     }
 
     async findById(id) {
-        const livro = await Livro.findById(id).populate("user_id", "nome email");
+        const livro = await Livro.findByPk(id, {
+            include: [
+                { model: User, as: 'dono', attributes: ['id', 'nome', 'email'] },
+                { model: Genero, as: 'generos', attributes: ['id', 'nome'], through: { attributes: [] } },
+            ],
+        });
         if (!livro) {
-            const erro = new Error("Livro não encontrado");
+            const erro = new Error('Livro não encontrado');
             erro.statusCode = 404;
             throw erro;
         }
@@ -40,43 +70,53 @@ class LivroService {
     }
 
     async update(id, dados, userId, userRole) {
-        const livro = await Livro.findById(id);
+        const livro = await Livro.findByPk(id);
         if (!livro) {
-            const erro = new Error("Livro não encontrado");
+            const erro = new Error('Livro não encontrado');
             erro.statusCode = 404;
             throw erro;
         }
 
-        const isOwner = String(livro.user_id._id || livro.user_id) === String(userId);
-        const isAdmin = userRole === "ADMIN";
+        const isOwner = String(livro.user_id) === String(userId);
+        const isAdmin = userRole === 'ADMIN';
 
         if (!isOwner && !isAdmin) {
-            const erro = new Error("Operação não permitida: você não é o dono deste livro");
+            const erro = new Error('Operação não permitida: você não é o dono deste livro');
             erro.statusCode = 403;
             throw erro;
         }
 
-        return await Livro.findByIdAndUpdate(id, dados, { new: true });
+        const { generos, ...camposSemGeneros } = dados;
+        await livro.update(camposSemGeneros);
+
+        if (generos !== undefined) {
+            const registros = await Promise.all(
+                generos.map((nome) => Genero.findOrCreate({ where: { nome } }))
+            );
+            await livro.setGeneros(registros.map(([g]) => g));
+        }
+
+        return await this.findById(id);
     }
 
     async delete(livroId, requesterId, requesterRole) {
-        const livro = await Livro.findById(livroId);
+        const livro = await Livro.findByPk(livroId);
         if (!livro) {
-            const erro = new Error("Livro não encontrado");
+            const erro = new Error('Livro não encontrado');
             erro.statusCode = 404;
             throw erro;
         }
 
         const isOwner = String(livro.user_id) === String(requesterId);
-        const isAdmin = requesterRole === "ADMIN";
+        const isAdmin = requesterRole === 'ADMIN';
 
         if (!isOwner && !isAdmin) {
-            const erro = new Error("Acesso negado: você não é o dono deste livro");
+            const erro = new Error('Acesso negado: você não é o dono deste livro');
             erro.statusCode = 403;
             throw erro;
         }
 
-        await Livro.findByIdAndDelete(livroId);
+        await livro.destroy();
     }
 }
 
