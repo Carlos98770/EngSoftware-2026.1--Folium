@@ -1,15 +1,45 @@
-import mongoose from "mongoose";
+import { DataTypes } from 'sequelize';
+import sequelize from '../database/config.js';
 
-const emprestimoSchema = new mongoose.Schema({
-    livro_id:{type: mongoose.Schema.Types.ObjectId, ref:("Livro"), required: true},
-    dono_id:{type: mongoose.Schema.Types.ObjectId, ref:("User"), required: true},
-    receptor_id:{ type: mongoose.Schema.Types.ObjectId, ref:("User"), required: true},
-    data_inicio:{type: Date,required: true},
-    data_fim:{type: Date, required: true},
-    data_devolucao:{type: Date},
-    status:{type: String, enum : ["ATIVO", "DEVOLVIDO", "ATRASADO"], default: "ATIVO"}
-},{
-    timestamps: true
+const Emprestimo = sequelize.define('Emprestimo', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    livro_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    dono_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    receptor_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    data_inicio: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    data_fim: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    data_devolucao: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+    status: {
+        type: DataTypes.ENUM('ATIVO', 'DEVOLVIDO', 'ATRASADO'),
+        defaultValue: 'ATIVO',
+    },
+}, {
+    tableName: 'emprestimos',
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
 });
 
-export default mongoose.model("Emprestimo", emprestimoSchema)
+export default Emprestimo;
