@@ -6,6 +6,7 @@ import type { LoginUser } from "../../../models/LoginUser"
 import * as z from "zod"
 import { toast } from "react-toastify"
 import "./LoginForm.css"
+import { required } from "zod/mini"
 
 type FormErros = {
     email: string,
@@ -39,28 +40,29 @@ export default function RegisterForm(){
         senha: ""
     })
 
+    const loginInput = z.object({
+            email: z.string().min(1,"O campo de email é obrigatório").max(100, "O email excede o limite de 100 caracteres")
+            .refine((input) => input==="admin" || z.email().safeParse(input).success,
+        "Email inválido"),
+            senha: z.string().min(6, "A senha deve ter no minimo 6 caracteres")
+            .max(50,"A senha excede o limite de 50 caracteres")
+    })
+
     const validateForm = async(formdata) => {
-        const mensagensValidacao: FormErros = {
-            email: "",
-            senha: ""
-        }
-        if(formdata.email)
+        const validacao = loginInput.safeParse(formdata)
 
-        if(!formdata.senha){
-            mensagensValidacao.senha = "A senha é obrigatória"
+        if(!validacao.success){
+            const loginErros = z.treeifyError(validacao.error) //.flatten().fieldErrors
+            const mensagens: FormErros = {
+            email: loginErros.properties.email?.errors[0] ?? "",
+            senha: loginErros.properties.senha?.errors[0] ?? ""
         }
-        else if(formdata.senha.length<6){
-            mensagensValidacao.senha = "A senha precisa ter mais de 6 caracteres"
-        }
-        else {
-            mensagensValidacao.senha = ""
+        setErrors(mensagens)
+        return { valido: false, messagens: mensagens }
         }
 
-        setErrors(mensagensValidacao)
-
-        const temErros = Object.values(mensagensValidacao).some(msg => msg !== "")
-        console.log({valido: !temErros, messagens: mensagensValidacao})
-        return {valido: !temErros, messagens: mensagensValidacao}
+    setErrors({ email: "", senha: "" })
+    return { valido: true, messagens: { email: "", senha: "" } }
     }
 
     const formBlurs = async(evt) => {
