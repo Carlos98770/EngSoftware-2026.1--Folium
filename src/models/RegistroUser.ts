@@ -1,4 +1,4 @@
-export type User = {
+export type RegistroUser = {
     email: string,
     nome: string,
     senha: string,
