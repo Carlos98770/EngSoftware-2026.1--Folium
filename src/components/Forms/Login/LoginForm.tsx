@@ -43,10 +43,20 @@ export default function RegisterForm(){
     })
 
     const validateForm = async(formdata) => {
+<<<<<<< Updated upstream
         const mensagensValidacao: FormErros = {
             email: "",
             nome: "",
             senha: "",
+=======
+        const validacao = loginInput.safeParse(formdata)
+
+        if(!validacao.success){
+            const loginErros = z.treeifyError(validacao.error) 
+            const mensagens: FormErros = {
+            email: loginErros.properties.email?.errors[0] ?? "", 
+            senha: loginErros.properties.senha?.errors[0] ?? ""
+>>>>>>> Stashed changes
         }
         if(!formdata.nome){
             mensagensValidacao.nome = "O nome de usuário é obrigatório"
@@ -102,7 +112,7 @@ export default function RegisterForm(){
             if(result.admin){
                 navigate("/admin")
             } else {
-                navigate("/login")
+                navigate("/home")
             }
         }
         else {
