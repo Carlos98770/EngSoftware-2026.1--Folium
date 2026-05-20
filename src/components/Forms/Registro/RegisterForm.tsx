@@ -133,6 +133,7 @@ export default function RegisterForm(){
 
     const messagens = mensagensErros(erros)
 
+    //Falta estilizar
     return (
     <div className="MainContainer">
         <div className="RegistroForm">
