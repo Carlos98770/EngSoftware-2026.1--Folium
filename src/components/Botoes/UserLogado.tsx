@@ -1,0 +1,52 @@
+import { useEffect, useRef, useState } from "react";
+import { authService } from "../../auth/AuthService";
+import { useNavigate } from "react-router-dom";
+
+export default function UserLogado(){
+    const userlogin = useState(false)
+    const [menuAberto, setMenuAberto] = useState(false)
+    const menuRef = useRef<HTMLDivElement>(null)
+    const emailUsuario = authService.getUser()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const handleClickFora = (evt: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(evt.target as Node)) {
+        setMenuAberto(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickFora)
+    return () => document.removeEventListener("mousedown", handleClickFora)
+    }, [])
+
+    const handleSair = () => {
+    authService.removeStoragedData()
+    navigate("/login")
+  }
+
+  if (!authService.userLogged()) return null  // ← não renderiza se não estiver logado
+
+  return (
+    <div ref={menuRef} style={{ position: "relative" }}>
+      <button onClick={() => setMenuAberto(prev => !prev)}>
+        {emailUsuario} ▾
+      </button>
+
+      {menuAberto && (
+        <div style={{
+          position: "absolute",
+          right: 0,
+          background: "white",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          padding: "8px",
+          zIndex: 100
+        }}>
+          <button onClick={() => navigate("/conta")}>Minha conta</button>
+          <button onClick={handleSair}>Sair</button>
+        </div>
+      )}
+    </div>
+  )
+}
+

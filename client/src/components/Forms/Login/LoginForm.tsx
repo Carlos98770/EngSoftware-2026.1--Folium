@@ -91,7 +91,7 @@ export default function RegisterForm(){
             if(result.admin){
                 navigate("/admin")
             } else {
-                navigate("/login")
+                navigate("/home")
             }
         }
         else {
