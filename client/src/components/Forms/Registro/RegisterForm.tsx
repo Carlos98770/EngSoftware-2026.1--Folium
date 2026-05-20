@@ -5,7 +5,7 @@ import { accountService } from "../../../services/AccountService"
 import type { RegistroUser } from "../../../models/RegistroUser"
 import * as z from "zod"
 import { toast } from "react-toastify"
-import "./LoginForm.css"
+//import "./LoginForm.css"
 
 type FormErros = {
     email: string,
@@ -86,11 +86,11 @@ export default function RegisterForm(){
         })
     }
 
-    const handleLoginClick = async() => {
+    const handleRegistroClick = async() => {
         const { valido, messagens } = await validateForm(formdata)
         if(valido) {
             const user: RegistroUser = { "email": formdata.email, "nome": formdata.nome, "senha": formdata.senha}
-            const result = await accountService.login(user)
+            const result = await accountService.registrar(user)
             authService.saveToken(result.token)
             const nomeUsuario = await accountService.getUsername(result.id)
             authService.saveUser(nomeUsuario)
@@ -133,37 +133,87 @@ export default function RegisterForm(){
 
     const messagens = mensagensErros(erros)
 
-    return(
-        <div className="MainContainer">
-            <div className="LoginForm">
-            <h1 className="LoginText">Login</h1>
-            <form action="" id="formLogin">
-            <h4>Entre na sua conta:</h4>
-            <div className="EmailForm">
-                <label htmlFor="email">Email:</label>
-                <input id="email" type="text" value={formdata.email} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.emailRef}/>
-            </div>
-            <div className="SenhaForm">
-                <label htmlFor="">Senha:</label>
-                <input type="password" id="senha" value={formdata.senha} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.senhaRef}/>
-            </div>
+    return (
+    <div className="MainContainer">
+        <div className="RegistroForm">
+            <h1 className="RegistroText">Registro</h1>
+            <form action="" id="formRegistro">
+                <h4>Crie a sua conta:</h4>
+                
+                {/* 1. Email */}
+                <div className="EmailForm">
+                    <label htmlFor="email">Email:</label>
+                    <input 
+                        id="email" 
+                        type="email" /* Mudado para 'email' que é mais semântico */
+                        value={formdata.email} 
+                        onChange={onChangeFormData} 
+                        onBlur={formBlurs} 
+                        ref={inputRefs.emailRef}
+                    />
+                </div>
+
+                {/* 2. Nome */}
+                <div className="NomeForm">
+                    <label htmlFor="nome">Nome:</label>
+                    <input 
+                        id="nome" 
+                        type="text" 
+                        value={formdata.nome} 
+                        onChange={onChangeFormData} 
+                        onBlur={formBlurs} 
+                        ref={inputRefs.nomeRef}
+                    />
+                </div>
+
+                {/* 3. Senha */}
+                <div className="SenhaForm">
+                    <label htmlFor="senha">Senha:</label>
+                    <input 
+                        type="password" 
+                        id="senha" 
+                        value={formdata.senha} 
+                        onChange={onChangeFormData} 
+                        onBlur={formBlurs} 
+                        ref={inputRefs.senhaRef}
+                    />
+                </div>
+
+                {/* 4. Confirmação de Senha */}
+                <div className="SenhaConfirmForm">
+                    <label htmlFor="senhaConfirmacao">Confirmar Senha:</label>
+                    <input 
+                        type="password" 
+                        id="senhaConfirmacao" 
+                        value={formdata.senhaConfirmacao} 
+                        onChange={onChangeFormData} 
+                        onBlur={formBlurs} 
+                        ref={inputRefs.senhaConfirmRef} /* Usando a ref solicitada */
+                    />
+                </div>
             </form>
-            </div>
-            <div className="ButtonsLoginForm">
-                <span><button className="ConfirmLogin" onClick={handleLoginClick}>Login</button></span>
-            </div>
-            <div className="MensagensErros">
-                {messagens.length > 0 && (
-                    <div>
-                        <ul>
-                            {messagens.map((error) => (
-                                <li>{error}</li>   
-                            ))} 
-                        </ul>
-                    </div>
-                )}
-            </div>
         </div>
-    )
+
+        <div className="ButtonsRegistroForm">
+            <span>
+                <button className="ConfirmRegistro" onClick={handleRegistroClick}>
+                    Registrar
+                </button>
+            </span>
+        </div>
+
+        <div className="MensagensErros">
+            {messagens.length > 0 && (
+                <div>
+                    <ul>
+                        {messagens.map((error, index) => (
+                            <li key={index}>{error}</li> /* Adicionado key apenas por boa prática do React */
+                        ))} 
+                    </ul>
+                </div>
+            )}
+        </div>
+    </div>
+)
 }
 
