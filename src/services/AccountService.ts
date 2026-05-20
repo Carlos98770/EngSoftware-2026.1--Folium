@@ -13,7 +13,7 @@ interface tokenParts {
 
 const getHeaders = () => ({
   "Content-Type": "application/json",
-  "Authorization": `Bearer ${localStorage.getItem("token") ?? ""}`
+  "Authorization": `Bearer ${localStorage.getItem("server.token") ?? ""}`
 })
 
 const registerUser = async(user: RegistroUser): Promise<UserResponse> => {
@@ -40,7 +40,7 @@ const login = async (user: LoginUser): Promise<UserResponse> => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({"email": user.email, "senha": user.senha})
   })
-  
+
   const data = await tokenResponse.json()
   const token = data.token
   const { id, role } = tokenDecode(token)
@@ -50,7 +50,6 @@ const login = async (user: LoginUser): Promise<UserResponse> => {
   }
 
   const isAdmin = role.includes("ADMIN")
-  console.log(isAdmin)
   return {"id": id, "token": token, "admin": isAdmin}
 }
 
@@ -61,4 +60,18 @@ const tokenDecode = (token: string): tokenParts => {
   return {"id": decodedToken.id, "role": decodedToken.role, "exp": decodedToken.exp}
 }
 
-export const accountService = { login, registerUser }
+const getUsername = async (id: number) => {
+  const response = await fetch(`${API_URL}/usuarios/${id}`, {
+    method: "GET",
+    headers: getHeaders(),
+  })
+
+  if(!response.ok){
+    throw new Error("Erro ao encontrar um usuario")
+  }
+
+  const data = await response.json()
+  return data.nome ?? ""
+}
+
+export const accountService = { login, registerUser, getUsername }
