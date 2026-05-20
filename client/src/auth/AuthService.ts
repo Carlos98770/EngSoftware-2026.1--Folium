@@ -19,8 +19,8 @@ export class AuthService{
         localStorage.setItem(this.STORAGE_KEY, token)
     }
 
-    public saveUser(userEmail: number): void{
-        localStorage.setItem(this.SERVER_USER, JSON.stringify(userEmail))
+    public saveUser(username: string): void{
+        localStorage.setItem(this.SERVER_USER, username)
     }
 
     public removeStoragedData(): void{

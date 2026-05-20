@@ -6,7 +6,7 @@ export default function UserLogado(){
     const userlogin = useState(false)
     const [menuAberto, setMenuAberto] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
-    const emailUsuario = authService.getUser()
+    const nomeUsuario = authService.getUser()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function UserLogado(){
   return (
     <div className="BoataoLogado" ref={menuRef}>
       <button onClick={() => setMenuAberto(prev => !prev)}>
-        {emailUsuario} ▾
+        {nomeUsuario}
       </button>
 
       {menuAberto && (
