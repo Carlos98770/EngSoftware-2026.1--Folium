@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 const API_URL: string = "http://localhost:3000"
 
 interface tokenParts {
-  sub: string,
+  id: number,
   role: string,
   exp: Date
 }
@@ -43,7 +43,7 @@ const login = async (user: LoginUser): Promise<UserResponse> => {
   
   const data = await tokenResponse.json()
   const token = data.token
-  const { sub, role } = tokenDecode(token)
+  const { id, role } = tokenDecode(token)
 
   if (!tokenResponse.ok) {
     throw new Error("Erro no login")
@@ -51,14 +51,14 @@ const login = async (user: LoginUser): Promise<UserResponse> => {
 
   const isAdmin = role.includes("ADMIN")
   console.log(isAdmin)
-  return {"email": sub, "token": token, "admin": isAdmin}
+  return {"id": id, "token": token, "admin": isAdmin}
 }
 
 const tokenDecode = (token: string): tokenParts => {
   const decodedToken = jwtDecode<tokenParts>(token)
   //console.log(decodedToken)
   //O SUB NÃO EXISTE NESSE TOKEN
-  return {"sub": decodedToken.sub, "role": decodedToken.role, "exp": decodedToken.exp}
+  return {"id": decodedToken.id, "role": decodedToken.role, "exp": decodedToken.exp}
 }
 
 export const accountService = { login, registerUser }

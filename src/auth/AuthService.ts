@@ -19,7 +19,7 @@ export class AuthService{
         localStorage.setItem(this.STORAGE_KEY, token)
     }
 
-    public saveUser(userEmail: string): void{
+    public saveUser(userEmail: number): void{
         localStorage.setItem(this.SERVER_USER, JSON.stringify(userEmail))
     }
 
