@@ -14,7 +14,7 @@ export default function AppRouter() {
             <Route element={<PublicRoute/>}/>
             <Route path="/login" element={<LoginPage/>}></Route>
             <Route path="/main" element={<MainPage/>}/>
-            <Route path="*" element={<Navigate to="/main" replace />}/>
+            <Route path="" element={<Navigate to="/main" replace />}/>
         </Routes>
         </BrowserRouter>
     )

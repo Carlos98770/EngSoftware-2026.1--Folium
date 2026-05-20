@@ -89,9 +89,10 @@ export default function RegisterForm(){
                 theme: "light"
             })
             if(result.admin){
+                console.log("EhAdmin")
                 navigate("/admin")
             } else {
-                navigate("/home")
+                navigate("/login")
             }
         }
         else {
