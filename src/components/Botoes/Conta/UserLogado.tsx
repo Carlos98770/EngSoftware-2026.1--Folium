@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { authService } from "../../auth/AuthService";
+import { authService } from "../../../auth/AuthService";
 import { useNavigate } from "react-router-dom";
+import "./BotaoLogado.css"
 
 export default function UserLogado(){
     const userlogin = useState(false)
@@ -27,18 +28,22 @@ export default function UserLogado(){
   if (!authService.userLogged()) return null  // ← não renderiza se não estiver logado
 
   return (
-    <div className="BoataoLogado" ref={menuRef}>
-      <button onClick={() => setMenuAberto(prev => !prev)}>
-        {nomeUsuario}
-      </button>
+    <div className="ContainerUsuario" ref={menuRef}>
+    <button className="BotaoLogado" onClick={() => setMenuAberto(prev => !prev)}>
+      {nomeUsuario} <span className="SetaMenu">▼</span>
+    </button>
 
-      {menuAberto && (
-        <div>
-          <button onClick={() => navigate("/conta")}>Minha conta</button>
-          <button onClick={handleSair}>Sair</button>
-        </div>
-      )}
-    </div>
+    {menuAberto && (
+      <div className="MenuOpcoes">
+        <button className="ItemMenu" onClick={() => navigate("/conta")}>
+          Minha conta
+        </button>
+        <button className="ItemMenu BotaoSair" onClick={handleSair}>
+          Sair
+        </button>
+      </div>
+    )}
+  </div>
   )
 }
 
