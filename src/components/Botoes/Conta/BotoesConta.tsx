@@ -11,7 +11,7 @@ export default function(){
 
     return(
         <div className="ContainerBotaoLogin">
-            <button className="BotaoRegistro" onClick={() => navigate("/registro")}>Crie a sua conta</button>
+            <button className="BotaoRegistro" onClick={() => navigate("/registrar")}>Crie a sua conta</button>
             <button className="BotaoLogin" onClick={() => navigate("/login")}>Entre</button>
         </div>
     )
