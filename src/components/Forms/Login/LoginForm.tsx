@@ -2,22 +2,21 @@ import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { authService } from "../../../auth/AuthService"
 import { accountService } from "../../../services/AccountService"
-import type { User } from "../../../models/UserModel"
-import { z } from "zod/mini"
+import type { LoginUser } from "../../../models/LoginUser"
+import * as z from "zod"
 import { toast } from "react-toastify"
 import "./LoginForm.css"
+import { required } from "zod/mini"
 
 type FormErros = {
     email: string,
-    nome: string,
-    senha: string,
+    senha: string
 }
 
 export default function RegisterForm(){
     const [formdata, setFormData] = useState({
         email: "",
-        nome: "",
-        senha: "",
+        senha: ""
     })
 
     const navigate = useNavigate()
@@ -38,51 +37,32 @@ export default function RegisterForm(){
     
     const [erros, setErrors] = useState<FormErros>({
         email: "",
-        nome: "",
-        senha: "",
+        senha: ""
+    })
+
+    const loginInput = z.object({
+            email: z.string().min(1,"O campo de email é obrigatório").max(100, "O email excede o limite de 100 caracteres")
+            .refine((input) => input==="admin" || z.email().safeParse(input).success,
+        "Email inválido"),
+            senha: z.string().min(6, "A senha deve ter no minimo 6 caracteres")
+            .max(50,"A senha excede o limite de 50 caracteres")
     })
 
     const validateForm = async(formdata) => {
-<<<<<<< Updated upstream
-        const mensagensValidacao: FormErros = {
-            email: "",
-            nome: "",
-            senha: "",
-=======
         const validacao = loginInput.safeParse(formdata)
 
         if(!validacao.success){
-            const loginErros = z.treeifyError(validacao.error) 
+            const loginErros = z.treeifyError(validacao.error) //.flatten().fieldErrors
             const mensagens: FormErros = {
-            email: loginErros.properties.email?.errors[0] ?? "", 
+            email: loginErros.properties.email?.errors[0] ?? "",
             senha: loginErros.properties.senha?.errors[0] ?? ""
->>>>>>> Stashed changes
         }
-        if(!formdata.nome){
-            mensagensValidacao.nome = "O nome de usuário é obrigatório"
-        } 
-        else if(formdata.nome.length<=5){
-            mensagensValidacao.nome = "O nome precisa ter mais de 5 caracteres"
-        } 
-        else {
-            mensagensValidacao.nome = ""
+        setErrors(mensagens)
+        return { valido: false, messagens: mensagens }
         }
 
-        if(!formdata.senha){
-            mensagensValidacao.senha = "A senha é obrigatória"
-        }
-        else if(formdata.senha.length<6){
-            mensagensValidacao.senha = "A senha precisa ter mais de 6 caracteres"
-        }
-        else {
-            mensagensValidacao.senha = ""
-        }
-
-        setErrors(mensagensValidacao)
-
-        const temErros = Object.values(mensagensValidacao).some(msg => msg !== "")
-        console.log({valido: !temErros, messagens: mensagensValidacao})
-        return {valido: !temErros, messagens: mensagensValidacao}
+    setErrors({ email: "", senha: "" })
+    return { valido: true, messagens: { email: "", senha: "" } }
     }
 
     const formBlurs = async(evt) => {
@@ -97,22 +77,22 @@ export default function RegisterForm(){
     const handleLoginClick = async() => {
         const { valido, messagens } = await validateForm(formdata)
         if(valido) {
-            const user: User = { "email": formdata.email, "nome": formdata.nome,
-                 "senha": formdata.senha}
+            const user: LoginUser = { "email": formdata.email, "senha": formdata.senha}
             const result = await accountService.login(user)
-            authService.saveUser(result.nome)
+            authService.saveUser(result.email)
             authService.saveToken(result.token)
             toast("Login feito com sucesso!", {
                 position: "top-right",
                 autoClose: 5000,
                 pauseOnHover: true,
                 type: "success",
-                theme: "dark"
+                theme: "light"
             })
             if(result.admin){
+                console.log("EhAdmin")
                 navigate("/admin")
             } else {
-                navigate("/home")
+                navigate("/login")
             }
         }
         else {
@@ -121,7 +101,7 @@ export default function RegisterForm(){
                 autoClose: 5000,
                 pauseOnHover: true,
                 type: "error",
-                theme: "dark"
+                theme: "light"
             })
             Object.keys(messagens).forEach(field => {
                 if(messagens[field as keyof FormErros]){
@@ -153,10 +133,6 @@ export default function RegisterForm(){
             <div className="EmailForm">
                 <label htmlFor="email">Email:</label>
                 <input id="email" type="text" value={formdata.email} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.emailRef}/>
-            </div>
-            <div className="NomeForm">
-                <label htmlFor="name">Nome:</label>
-                <input id="nome" type="text" value={formdata.nome} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.nomeRef}/>
             </div>
             <div className="SenhaForm">
                 <label htmlFor="">Senha:</label>

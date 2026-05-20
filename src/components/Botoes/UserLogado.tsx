@@ -27,21 +27,13 @@ export default function UserLogado(){
   if (!authService.userLogged()) return null  // ← não renderiza se não estiver logado
 
   return (
-    <div ref={menuRef} style={{ position: "relative" }}>
+    <div className="BoataoLogado" ref={menuRef}>
       <button onClick={() => setMenuAberto(prev => !prev)}>
         {emailUsuario} ▾
       </button>
 
       {menuAberto && (
-        <div style={{
-          position: "absolute",
-          right: 0,
-          background: "white",
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          padding: "8px",
-          zIndex: 100
-        }}>
+        <div>
           <button onClick={() => navigate("/conta")}>Minha conta</button>
           <button onClick={handleSair}>Sair</button>
         </div>
