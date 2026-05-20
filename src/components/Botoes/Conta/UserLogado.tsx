@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { authService } from "../../../auth/AuthService";
 import { useNavigate } from "react-router-dom";
 import "./BotaoLogado.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function UserLogado(){
-    const userlogin = useState(false)
+    //const userlogin = useState(false)
     const [menuAberto, setMenuAberto] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
     const nomeUsuario = authService.getUser()
@@ -12,7 +13,7 @@ export default function UserLogado(){
 
     useEffect(() => {
         const handleClickFora = (evt: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(evt.target as Node)) {
+        if(menuRef.current && !menuRef.current.contains(evt.target as Node)) {
         setMenuAberto(false)
       }
     }
@@ -22,10 +23,13 @@ export default function UserLogado(){
 
     const handleSair = () => {
     authService.removeStoragedData()
-    navigate("/login")
+    console.log()
+    navigate("/main")
   }
 
-  if (!authService.userLogged()) return null  // ← não renderiza se não estiver logado
+  if(!authService.userLogged()){
+    return null
+  }   
 
   return (
     <div className="ContainerUsuario" ref={menuRef}>
