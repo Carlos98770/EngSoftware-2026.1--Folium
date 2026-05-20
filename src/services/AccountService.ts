@@ -16,10 +16,10 @@ const getHeaders = () => ({
   "Authorization": `Bearer ${localStorage.getItem("server.token") ?? ""}`
 })
 
-const registerUser = async(user: RegistroUser): Promise<UserResponse> => {
-  const response = await fetch(API_URL + "/create", {
+const registrar = async(user: RegistroUser): Promise<UserResponse> => {
+  const response = await fetch(API_URL + "/usuarios", {
     method: "POST",
-    headers: getHeaders(),
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user)
   })
 
@@ -30,7 +30,11 @@ const registerUser = async(user: RegistroUser): Promise<UserResponse> => {
     throw new Error("Erro ao registrar")
   }
 
-  return login(user)
+  const data = await response.json()
+  const token = data.token
+  const { id, role } = tokenDecode(token)
+
+  return {"id": id, "token": token, "admin": false}
 }
 
 const login = async (user: LoginUser): Promise<UserResponse> => {
@@ -74,4 +78,4 @@ const getUsername = async (id: number) => {
   return data.nome ?? ""
 }
 
-export const accountService = { login, registerUser, getUsername }
+export const accountService = { login, registrar, getUsername }

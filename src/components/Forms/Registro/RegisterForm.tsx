@@ -2,12 +2,12 @@ import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { authService } from "../../../auth/AuthService"
 import { accountService } from "../../../services/AccountService"
-import type { LoginUser } from "../../../models/LoginUser"
-import { z } from "zod/mini"
+import type { RegistroUser } from "../../../models/RegistroUser"
+import * as z from "zod"
 import { toast } from "react-toastify"
 import "./LoginForm.css"
 
-type FormErrors = {
+type FormErros = {
     email: string,
     nome: string,
     senha: string,
@@ -36,53 +36,45 @@ export default function RegisterForm(){
         emailRef: useRef<HTMLInputElement>(null),
         nomeRef: useRef<HTMLInputElement>(null),
         senhaRef: useRef<HTMLInputElement>(null),
+        senhaConfirmRef: useRef<HTMLInputElement>(null),
     }
     
-    const [errors, setErrors] = useState<FormErrors>({
+    const [erros, setErrors] = useState<FormErros>({
         email: "",
         nome: "",
         senha: "",
+        senhaConfirmacao: ""
     })
 
+    const registroInput = z.object({
+            email: z.string().min(1,"O campo de email é obrigatório").max(100, "O email excede o limite de 100 caracteres")
+            .refine((input) => input==="admin" || z.email().safeParse(input).success,
+        "Email inválido"),
+            nome: z.string().min(4, "O nome deve ter no minimo 4 caracters")
+            .max(30, "O nome deve ter no máximo 30 caracteres"),
+            senha: z.string().min(6, "A senha deve ter no minimo 6 caracteres")
+            .max(50,"A senha excede o limite de 50 caracteres"),
+            senhaConf: z.string().min(1, "A confirmação é obrigatória")
+            .max(50,"A confirmação excede o limite de 50 caracteres")
+    }).refine((input) => input.senha === input.senhaConf, "A senha e a confirmação não conferem")
+
     const validateForm = async(formdata) => {
-        const validationsMessages: FormErrors = {
-            email: "",
-            nome: "",
-            senha: "",
+        const validacao = registroInput.safeParse(formdata)
+
+        if(!validacao.success){
+            const registroErros = z.treeifyError(validacao.error) //.flatten().fieldErrors
+            const mensagens: FormErros = {
+            email: registroErros.properties.email?.errors[0] ?? "",
+            nome: registroErros.properties.nome?.errors[0] ?? "",
+            senha: registroErros.properties.senha?.errors[0] ?? "",
+            senhaConfirmacao: registroErros.properties.senhaConf?.errors[0] ?? ""
         }
-        if(!formdata.nome){
-            validationsMessages.nome = "Username is Required"
-        } 
-        else if(formdata.nome.length<=5){
-            validationsMessages.nome = "Username must have more than 5 characters"
-        } 
-        else {
-            validationsMessages.nome = ""
+        setErrors(mensagens)
+        return { valido: false, messagens: mensagens }
         }
 
-        if(!formdata.senha){
-            validationsMessages.senha = "Password is required"
-        }
-        else if(formdata.password.length<6){
-            validationsMessages.senha = "Password must have more than 6 characters"
-        }
-        else {
-            validationsMessages.senha = ""
-        }
-
-        if (!formdata.senhaConfirmacao) {
-            validationsMessages.senhaConfirmacao = "Confirmation is required"
-        }
-        else if (formdata.passwordConfirmation !== formdata.password) {
-            validationsMessages.senhaConfirmacao = "Passwords do not match"
-        } else {
-            validationsMessages.senhaConfirmacao = ""
-        }
-        setErrors(validationsMessages)
-
-        const hasErrors = Object.values(validationsMessages).some(msg => msg !== "")
-        console.log({valid: !hasErrors, messages: validationsMessages})
-        return {valid: !hasErrors, messages: validationsMessages}
+    setErrors({ email: "", nome: "", senha: "", senhaConfirmacao: "" })
+    return { valido: true, messagens: { email: "", nome: "", senha: "", senhaConfirmacao: "" } }
     }
 
     const formBlurs = async(evt) => {
@@ -95,24 +87,25 @@ export default function RegisterForm(){
     }
 
     const handleLoginClick = async() => {
-        const { valid, messages } = await validateForm(formdata)
-        if(valid) {
-            const user: User = { "email": formdata.email, "username": formdata.username,
-                 "password": formdata.password}
+        const { valido, messagens } = await validateForm(formdata)
+        if(valido) {
+            const user: RegistroUser = { "email": formdata.email, "nome": formdata.nome, "senha": formdata.senha}
             const result = await accountService.login(user)
-            authService.saveUser(result.username)
             authService.saveToken(result.token)
-            toast("Login feito com sucesso!", {
+            const nomeUsuario = await accountService.getUsername(result.id)
+            authService.saveUser(nomeUsuario)
+            toast("Registro feito com sucesso!", {
                 position: "top-right",
                 autoClose: 5000,
                 pauseOnHover: true,
                 type: "success",
-                theme: "dark"
+                theme: "light"
             })
             if(result.admin){
+                console.log("EhAdmin")
                 navigate("/admin")
             } else {
-                navigate("/login")
+                navigate("/main")
             }
         }
         else {
@@ -121,10 +114,10 @@ export default function RegisterForm(){
                 autoClose: 5000,
                 pauseOnHover: true,
                 type: "error",
-                theme: "dark"
+                theme: "light"
             })
-            Object.keys(messages).forEach(field => {
-                if(messages[field as keyof FormErrors]){
+            Object.keys(messagens).forEach(field => {
+                if(messagens[field as keyof FormErros]){
                     setFormData(prev => ({
                         ...prev ,[field]:""
                     }))
@@ -133,46 +126,37 @@ export default function RegisterForm(){
         }
     }
 
-    const displayMessages = (errors: FormErrors): string[] => {
-        const errorsMessages = Object.values(errors).filter(msg => msg !== "")
-        return errorsMessages
+    const mensagensErros = (erros: FormErros): string[] => {
+        const errosMessagens = Object.values(erros).filter(msg => msg !== "")
+        return errosMessagens
     }
 
-    //FALTA RESETAR O INPUT QUE NÃO FUNCIONAR QUANDO APERTAR EM LOGIN(TALVEZ?)
-    const messages = displayMessages(errors)
+    const messagens = mensagensErros(erros)
 
     return(
         <div className="MainContainer">
             <div className="LoginForm">
             <h1 className="LoginText">Login</h1>
             <form action="" id="formLogin">
-            <h4>Enter your account:</h4>
+            <h4>Entre na sua conta:</h4>
             <div className="EmailForm">
                 <label htmlFor="email">Email:</label>
                 <input id="email" type="text" value={formdata.email} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.emailRef}/>
             </div>
-            <div className="NameForm">
-                <label htmlFor="name">Username:</label>
-                <input id="username" type="text" value={formdata.username} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.usernameRef}/>
-            </div>
-            <div className="PasswordForm">
-                <label htmlFor="">Password:</label>
-                <input type="password" id="password" value={formdata.password} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.passwordRef}/>
-            </div>
-            <div className="PasswordConfirmForm">
-                <label htmlFor="">Password confirmation:</label>
-                <input type="password" id="senhaConfirmacao" value={formdata.senhaConfirmacao} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.passwordConfirmationRef}/>
+            <div className="SenhaForm">
+                <label htmlFor="">Senha:</label>
+                <input type="password" id="senha" value={formdata.senha} onChange={onChangeFormData} onBlur={formBlurs} ref={inputRefs.senhaRef}/>
             </div>
             </form>
             </div>
             <div className="ButtonsLoginForm">
                 <span><button className="ConfirmLogin" onClick={handleLoginClick}>Login</button></span>
             </div>
-            <div className="ErrorsDisplay">
-                {messages.length > 0 && (
+            <div className="MensagensErros">
+                {messagens.length > 0 && (
                     <div>
                         <ul>
-                            {messages.map((error) => (
+                            {messagens.map((error) => (
                                 <li>{error}</li>   
                             ))} 
                         </ul>
@@ -183,13 +167,3 @@ export default function RegisterForm(){
     )
 }
 
-/**
- * const usernameConstraint: boolean = !!(errors.username.length)
-        const passwordConstraint: boolean = !!(errors.password.length)
-        const passwordConfirmationConstraint: boolean = !!(errors.passwordConfirmation.length)
-        
-        if(passwordConstraint || passwordConfirmationConstraint || usernameConstraint){
-            displayMessages(errors)
-        }
-        return null
- */
