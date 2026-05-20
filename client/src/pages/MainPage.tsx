@@ -1,4 +1,4 @@
-import UserLogado from "../components/Botoes/UserLogado"
+import UserLogado from "../components/Botoes/Conta/UserLogado"
 //import { SearchBar } from "../components/SearchBar/SearchBar"
 
 export default function MainPage(){
