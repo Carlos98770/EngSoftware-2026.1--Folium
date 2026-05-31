@@ -5,12 +5,12 @@ Este diretório contém as histórias de usuário do sistema de gerenciamento de
 ## Organização
 
 - autenticacao/
-  - Cadastro
-  - Login
-  - Logout
+  - Cadastro - [Cadastro](./autenticacao/US001-cadastro-usuario.md)
+  - Login  - [Login](./autenticacao/US002-login-logout.md)
+  - Logout - [Logout](./autenticacao/US002-login-logout.md)
 
 - catalogo/
-  - Empréstimos
+  - Empréstimos [Empréstimos](./catalogo/US003-descoberta-emprestimo.md)
 
 ## Convenção
 
