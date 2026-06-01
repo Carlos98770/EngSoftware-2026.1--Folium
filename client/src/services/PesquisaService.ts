@@ -2,7 +2,7 @@ import type { Livro } from "../models/LivroModel"
 
 const API_URL: string = "http://localhost:3000"
 
-export const PesquisaService = async (livro: Livro) => {
+export const PesquisaService = async (titulo: string) => {
     const pesquisaResponse = await fetch(API_URL + "/livros?titulo=${livro}", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
