@@ -1,17 +1,68 @@
+/* Container que envolve tudo (Pesquisa + Grid de Livros) */
 .PesquisaContainer {
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
+/* Ajuste focado na Barra de Pesquisa */
 .BarraPesquisa {
     display: flex;
     gap: 10px;
-    margin-bottom: 30px;
+    
+    /* ADICIONE ESTA LINHA: */
+    margin-top: 15vh;    /* Empurra a barra para o final do primeiro terço da tela */
+    
+    margin-bottom: 40px; /* Distância entre a barra e os cards */
+    width: 100%;
+    max-width: 40%;
 }
 
-/* Faz os cards ficarem lado a lado e quebrarem de linha sozinhos se faltar espaço */
+/* Estilização do Input de Busca */
+.BarraPesquisa input {
+    flex: 1;             /* Faz o input ocupar todo o espaço restante dos 40% */
+    padding: 12px 20px;
+    border: 2.5px solid #438fe5;
+    border-radius: 20px; /* Bordas arredondadas igual ao login/registro */
+    background-color: transparent;
+    color: black;
+    outline: none;
+    font-size: 1rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.BarraPesquisa input:focus {
+    box-shadow: 0 0 5px rgba(67, 143, 229, 0.4);
+}
+
+/* Estilização do Botão de Pesquisa (Alinhado com o estilo do projeto) */
+.BarraPesquisa button {
+    padding: 12px 24px;
+    background-color: #438fe5; /* O mesmo azul padrão */
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;       /* Cantos arredondados suavizados */
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.BarraPesquisa button:hover {
+    opacity: 0.9;              /* Efeito de feedback visual no hover */
+}
+
+.BarraPesquisa button:disabled {
+    background-color: #a0c4ed; /* Azul mais claro/apagado enquanto carrega */
+    cursor: not-allowed;
+}
+
+/* Grid de Livros (Garante que os cards fiquem centralizados abaixo) */
 .LivrosGrid {
     display: flex;
     flex-wrap: wrap;

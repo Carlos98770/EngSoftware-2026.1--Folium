@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { PesquisaService } from "../../services/PesquisaService";
 import LivroCard from "../Cards/LivroCard";
+import "./PesquisaLivros.css"
 
 type Livro = {
     titulo: string;
