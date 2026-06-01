@@ -1,0 +1,58 @@
+/* Container que alinha os dois botões lado a lado */
+.ContainerBotaoLogin {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espaçamento horizontal entre os dois botões */
+    font-family: sans-serif;
+    
+    /* Novo posicionamento adicionado aqui: */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* Garante que fique por cima de outros elementos da página */
+}
+
+/* Estilo base compartilhado por ambos os botões para manter o padrão */
+.BotaoRegistro, .BotaoLogin {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+/* Botão "Crie a sua conta" - Estilo vazado (Outline) */
+.BotaoRegistro {
+    background-color: transparent;
+    color: #438fe5; /* Usa a cor do seu tema no texto */
+    border: 2px solid #438fe5; /* Borda com a cor do tema */
+}
+
+/* Efeito de passar o mouse no botão de registro */
+.BotaoRegistro:hover {
+    background-color: rgba(67, 143, 229, 0.08); /* Fundo azul bem clarinho e sutil */
+    border-color: #3572b6; /* Borda escurece levemente */
+    color: #3572b6;
+}
+
+/* Botão "Entre" - Estilo Sólido preenchido */
+.BotaoLogin {
+    background-color: #438fe5; /* Cor principal solicitada */
+    color: white;
+    border: 2px solid #438fe5; /* Mantém o mesmo tamanho do outro botão */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Efeito de passar o mouse no botão de login */
+.BotaoLogin:hover {
+    background-color: #3572b6; /* Tom mais escuro para o hover */
+    border-color: #3572b6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Efeito físico de clique para ambos os botões */
+.BotaoRegistro:active, .BotaoLogin:active {
+    transform: scale(0.97);
+}

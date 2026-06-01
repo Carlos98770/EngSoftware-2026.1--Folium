@@ -1,5 +1,5 @@
 export interface UserResponse {
-    email: string,
+    id: number,
     token: string,
     admin: boolean
 }
