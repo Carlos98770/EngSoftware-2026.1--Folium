@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { PesquisaService } from "../../services/PesquisaService";
+import LivroCard from "../Cards/LivroCard";
 
 type Livro = {
     titulo: string;
@@ -31,23 +32,28 @@ export default function PesquisaLivros() {
     };
 
     return (
-        <div>
-            <input
-                ref={inputRef}
-                type="text"
-                value={busca}
-                onChange={(e) => setBusca(e.target.value)}
-                placeholder="Buscar livros..."
-            />
-            <button onClick={handlePesquisa} disabled={carregando}>
-                {carregando ? "Buscando..." : "Pesquisar"}
-            </button>
+        <div className="PesquisaContainer">
+            <div className="BarraPesquisa">
+                <input
+                    ref={inputRef}
+                    type="text"
+                    value={busca}
+                    onChange={(e) => setBusca(e.target.value)}
+                    placeholder="Buscar livros..."
+                />
+                <button onClick={handlePesquisa} disabled={carregando}>
+                    {carregando ? "Buscando..." : "Pesquisar"}
+                </button>
+            </div>
 
-            <div>
+            {/* 2. Container onde os cards vão se alinhar */}
+            <div className="LivrosGrid">
                 {livros.map((livro, index) => (
-                    <div key={index}>
-                        <p>{livro.titulo}</p>
-                    </div>
+                    <LivroCard 
+                        key={index} 
+                        titulo={livro.titulo} 
+                        disponivel={livro.disponivel} 
+                    />
                 ))}
             </div>
         </div>

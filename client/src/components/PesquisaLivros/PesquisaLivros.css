@@ -1,0 +1,22 @@
+.PesquisaContainer {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.BarraPesquisa {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+/* Faz os cards ficarem lado a lado e quebrarem de linha sozinhos se faltar espaço */
+.LivrosGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+}
