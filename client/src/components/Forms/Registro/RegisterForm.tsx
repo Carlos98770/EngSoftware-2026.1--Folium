@@ -133,10 +133,6 @@ export default function RegisterForm(){
 
     const messagens = mensagensErros(erros)
 
-<<<<<<< HEAD:client/src/components/Forms/Registro/RegisterForm.tsx
-    //Falta estilizar
-=======
->>>>>>> eba8d13 (Rotas publicas ajustadas):src/components/Forms/Registro/RegisterForm.tsx
     return (
     <div className="MainContainer">
         <div className="RegistroForm">
