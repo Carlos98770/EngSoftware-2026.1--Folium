@@ -53,6 +53,18 @@ class LivroController {
             next(error);
         }
     }
+
+    async findByTitulo(req, res, next){
+        try {
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const titulo = req.query.titulo || null;
+            const resultado = await livroService.findAll(page, limit, titulo);
+            return res.json(resultado);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 export default new LivroController();
