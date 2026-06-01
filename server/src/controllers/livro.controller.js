@@ -15,7 +15,10 @@ class LivroController {
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
             const genero = req.query.genero || null;
-            const resultado = await livroService.findAll(page, limit, genero);
+            const busca = req.query.busca || null;
+
+            // Passa a busca para o service
+            const resultado = await livroService.findAll(page, limit, genero, busca);
             return res.json(resultado);
         } catch (error) {
             next(error);
