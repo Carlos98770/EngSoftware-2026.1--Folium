@@ -5,7 +5,7 @@ import { accountService } from "../../../services/AccountService"
 import type { RegistroUser } from "../../../models/RegistroUser"
 import * as z from "zod"
 import { toast } from "react-toastify"
-//import "./LoginForm.css"
+import "./RegistroForm.css"
 
 type FormErros = {
     email: string,
@@ -140,14 +140,9 @@ export default function RegisterForm(){
             <form action="" id="formRegistro">
                 <h4>Crie a sua conta:</h4>
                 
-                {/* 1. Email */}
                 <div className="EmailForm">
                     <label htmlFor="email">Email:</label>
-                    <input 
-                        id="email" 
-                        type="email" /* Mudado para 'email' que é mais semântico */
-                        value={formdata.email} 
-                        onChange={onChangeFormData} 
+                    <input id="email" type="email" value={formdata.email} onChange={onChangeFormData} 
                         onBlur={formBlurs} 
                         ref={inputRefs.emailRef}
                     />
@@ -166,29 +161,18 @@ export default function RegisterForm(){
                     />
                 </div>
 
-                {/* 3. Senha */}
                 <div className="SenhaForm">
                     <label htmlFor="senha">Senha:</label>
-                    <input 
-                        type="password" 
-                        id="senha" 
-                        value={formdata.senha} 
-                        onChange={onChangeFormData} 
-                        onBlur={formBlurs} 
+                    <input type="password" id="senha" value={formdata.senha} onChange={onChangeFormData} onBlur={formBlurs} 
                         ref={inputRefs.senhaRef}
                     />
                 </div>
 
-                {/* 4. Confirmação de Senha */}
                 <div className="SenhaConfirmForm">
                     <label htmlFor="senhaConfirmacao">Confirmar Senha:</label>
-                    <input 
-                        type="password" 
-                        id="senhaConfirmacao" 
-                        value={formdata.senhaConfirmacao} 
-                        onChange={onChangeFormData} 
+                    <input type="password" id="senhaConfirmacao" value={formdata.senhaConfirmacao} onChange={onChangeFormData} 
                         onBlur={formBlurs} 
-                        ref={inputRefs.senhaConfirmRef} /* Usando a ref solicitada */
+                        ref={inputRefs.senhaConfirmRef} 
                     />
                 </div>
             </form>
