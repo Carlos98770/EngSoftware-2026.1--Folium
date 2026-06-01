@@ -89,7 +89,7 @@ export default function RegisterForm(){
                 theme: "light"
             })
             if(result.admin){
-                console.log("EhAdmin")
+                authService.saveAdmin(true)
                 navigate("/admin")
             } else {
                 navigate("/main")

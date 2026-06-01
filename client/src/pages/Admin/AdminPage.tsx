@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react"
 import { PesquisaService } from "../../services/PesquisaService"
+import DashboardDisponivel from "../../components/Dashboards/DashboardDisponivel" 
+import "./AdminPage.css"
+
 
 type Livro = {
-    id: number,
-    nome: string,
-    genero: string,
-    disponibilidade: boolean
+    id: number;
+    nome: string;
+    editora: string;
+    comentario: string;
+    quantidade_total: number;       
+    quantidade_disponivel: number; 
+    user_id: number;
 }
 
 export default function AdminPage(){
@@ -18,16 +24,25 @@ export default function AdminPage(){
                 const resultado = await PesquisaService("")
                 setLivros(resultado)
             } catch(error) {
-                //Alguma coisa
+                console.error("Erro ao buscar livros para o admin:", error)
             } finally {
                 setCarregando(false)
             }
         }
         dadosBanco()
     }, [])
-    return(
-        <div>
-            <h1>DASHBOARD</h1>
+
+    return (
+        <div className="admin-page-container">
+            <h1 className="admin-title">DASHBOARD</h1>
+
+            <div className="dashboard-sunken-container">
+                {carregando ? (
+                    <p className="loading-text">Carregando gráficos...</p>
+                ) : (
+                    <DashboardDisponivel listaLivros={livros} />
+                )}
+            </div>
         </div>
     )
 }

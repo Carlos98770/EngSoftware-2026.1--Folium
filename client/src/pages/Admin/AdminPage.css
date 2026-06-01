@@ -1,0 +1,47 @@
+/* Container principal da página */
+.admin-page-container {
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding: 40px;
+    font-family: sans-serif;
+    position: relative; /* Necessário para o posicionamento absoluto do título */
+    box-sizing: border-box;
+}
+
+/* Título posicionado no canto superior ESQUERDO */
+.admin-title {
+    color: #438fe5;
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    top: 30px;
+    left: 40px; /* <-- Mudado de 'right' para 'left' */
+}
+
+/* O container cinza com efeito "afundado" (Inset Shadow) */
+.dashboard-sunken-container {
+    background-color: #e9ecef; /* Cinza de fundo para dar contraste */
+    border-radius: 20px;
+    padding: 40px;
+    margin-top: 60px; /* Dá espaço para o título não cobrir os gráficos */
+    
+    /* Sombras internas (inset) para criar o efeito de profundidade */
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.1), 
+                inset -4px -4px 10px rgba(255, 255, 255, 0.6);
+                
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    min-height: 300px;
+    align-items: center;
+}
+
+/* Mensagem de carregamento centralizada no container */
+.loading-text {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    width: 100%;
+}
