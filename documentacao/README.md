@@ -1,19 +1,34 @@
-# User Stories
+# 📚 Folium — Documentação
 
-Este diretório contém as histórias de usuário do sistema de gerenciamento de biblioteca.
+> Sistema de Gestão de Empréstimos de Livros
 
-## Organização
 
-- autenticacao/
-  - Cadastro
-  - Login
-  - Logout
+## 📁 Estrutura da Documentação
 
-- catalogo/
-  - Empréstimos
+```
+documentacao/
+├── README.md           ← você está aqui
+├── user-stories/
+│   └── README.md       ← Histórias de usuário do 
+└── testes/
+    └── README.md       ← Estratégia e resultados de Testes
+```
 
-## Convenção
+---
 
-USXXX-nome-da-feature.md
+## 🔗 Navegação
 
-#### Ultima Atualização : 09/05/2026
+- 📖 [User Stories](./user-stories/README.md) — Requisitos funcionais descritos como histórias de usuário, organizados por épico e prioridade.
+- 🧪 [Testes](./testes/README.md) — Plano de testes, casos de teste e resultados de execução (backend e futuramente frontend).
+
+---
+
+## 👥 Equipe
+
+Projeto desenvolvido na disciplina de **Engenharia de Software — 2026.1**.
+
+---
+
+## 📄 Licença
+
+Este projeto é de uso acadêmico.

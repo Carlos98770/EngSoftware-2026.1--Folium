@@ -23,6 +23,9 @@ Folium é uma plataforma web para gestão de empréstimos de livros entre usuár
 - João Victor do Nascimento
 - Petrus Melo
 
+### Documentação
+Acesse a Documentação em - 📖 [documentação](./documentacao/README.md)
+
 ## Como clonar ou baixar
 
 Você pode obter este repositório de três formas:
