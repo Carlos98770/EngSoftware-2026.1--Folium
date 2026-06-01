@@ -15,8 +15,10 @@
 .LivroTitulo {
     margin: 0;
     font-size: 1.2rem;
-    color: #333333;
+    color: #438fe5;       /* 1. Mudou para o azul padrão do seu projeto */
     font-weight: 600;
+    align-self: flex-start; /* 2. Joga o título totalmente para a direita */
+    text-align: right;    /* Garante que se o título for longo e quebrar linha, ele alinhe à direita */
 }
 
 .LivroStatus {

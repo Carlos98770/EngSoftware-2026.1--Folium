@@ -2,12 +2,15 @@ import { useRef, useState } from "react";
 import { PesquisaService } from "../../services/PesquisaService";
 import LivroCard from "../Cards/LivroCard";
 import "./PesquisaLivros.css"
+import { toast } from "react-toastify";
 
 type Livro = {
-    titulo: string;
-    disponivel: boolean;
+    id: number;
+    nome: string;                 /* <-- Mudou de 'titulo' para 'nome' */
+    quantidade_disponivel: number; /* <-- Mudou de 'disponivel: boolean' para 'quantidade_disponivel: number' */
+    editora: string;
+    comentario: string;
 }
-
 export default function PesquisaLivros() {
     const [busca, setBusca] = useState("");
     const [livros, setLivros] = useState<Livro[]>([]);
@@ -21,12 +24,18 @@ export default function PesquisaLivros() {
         setCarregando(true);
 
         const resultado: Livro[] = await PesquisaService(busca);
+        console.log("Dados que vieram da API:", resultado);
 
         if (resultado.length === 0) {
-            // toast não existe
+            toast("Livros não encontrados.", {
+                position: "top-center",
+                autoClose: 5000,
+                pauseOnHover: true,
+                type: "error",
+                theme: "light"
+            })
         } else {
             setLivros(resultado);
-            // toast sucesso
         }
 
         setCarregando(false);
@@ -42,7 +51,7 @@ export default function PesquisaLivros() {
                     onChange={(e) => setBusca(e.target.value)}
                     placeholder="Buscar livros..."
                 />
-                <button onClick={handlePesquisa} disabled={carregando}>
+                <button type="button" onClick={handlePesquisa} disabled={carregando}>
                     {carregando ? "Buscando..." : "Pesquisar"}
                 </button>
             </div>
@@ -50,12 +59,12 @@ export default function PesquisaLivros() {
             {/* 2. Container onde os cards vão se alinhar */}
             <div className="LivrosGrid">
                 {livros.map((livro, index) => (
-                    <LivroCard 
-                        key={index} 
-                        titulo={livro.titulo} 
-                        disponivel={livro.disponivel} 
-                    />
-                ))}
+                <LivroCard 
+                key={livro.id ?? index} 
+                titulo={livro.nome} // <-- Mapeia 'nome' para a propriedade 'titulo' do card
+                disponivel={livro.quantidade_disponivel > 0} // <-- Se for > 0, passa true, senão false
+                />
+            ))}
             </div>
         </div>
     );

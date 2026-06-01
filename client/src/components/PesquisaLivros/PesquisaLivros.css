@@ -65,9 +65,16 @@
 /* Grid de Livros (Garante que os cards fiquem centralizados abaixo) */
 .LivrosGrid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    flex-direction: column; /* Força um card a ficar embaixo do outro */
+    gap: 15px;              /* Espaçamento vertical entre um card e outro */
+    align-items: center;    /* Centraliza a lista na tela */
     width: 100%;
     max-width: 1200px;
+}
+
+/* Opcional: Se quiser que os cards fiquem mais largos no formato de lista, 
+   adicione essa regra para sobresscrever a largura máxima do card dentro da lista */
+.LivrosGrid .LivroCard {
+    max-width: 500px;       /* Deixa o card mais comprido horizontalmente */
+    width: 100%;
 }
