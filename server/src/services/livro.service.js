@@ -1,3 +1,4 @@
+import { Op } from 'sequelize'; // <-- Importação necessária para a busca por título
 import sequelize from '../database/config.js';
 import { Livro, User, Genero } from '../database/associations.js';
 
@@ -24,10 +25,18 @@ class LivroService {
         return await this.findById(livro.id);
     }
 
-    async findAll(page = 1, limit = 10, genero = null) {
+    // <-- Adicionado o parâmetro 'busca' aqui
+    async findAll(page = 1, limit = 10, genero = null, busca = null) {
         const offset = (page - 1) * limit;
 
         const where = {};
+        
+        if (busca) {
+            where.nome = {
+                [Op.substring]: busca 
+            };
+        }
+
         const include = [
             { model: User, as: 'dono', attributes: ['id', 'nome', 'email'] },
             { model: Genero, as: 'generos', attributes: ['id', 'nome'], through: { attributes: [] } },
@@ -41,7 +50,7 @@ class LivroService {
         const { rows: data, count: total } = await Livro.findAndCountAll({
             where,
             include,
-            distinct: true,
+            distinct: true, 
             limit,
             offset,
         });
