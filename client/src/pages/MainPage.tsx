@@ -1,11 +1,13 @@
-/**
- * import { SearchBar } from "../components/SearchBar/SearchBar"
+import BotoesConta from "../components/Botoes/Conta/BotoesConta"
+import UserLogado from "../components/Botoes/Conta/UserLogado"
+//import { SearchBar } from "../components/SearchBar/SearchBar"
 
 export default function MainPage(){
     return (
         <div className="MainPage">
-            <SearchBar></SearchBar>
+            <UserLogado></UserLogado>
+            <BotoesConta></BotoesConta>
         </div>
     )
 }
- */
+

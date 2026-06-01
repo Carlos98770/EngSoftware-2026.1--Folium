@@ -1,12 +1,10 @@
-import { Route, Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { authService } from "../auth/AuthService";
 
 const PublicRoute = () => {
-  const isAuthenticated = authService.userLogged()
-  return <Navigate to="/login"></Navigate>
-    if(!isAuthenticated){
-        
+    if(authService.getUser()){
+        return <Navigate to="/main" replace />;
     }
-    return <Outlet/> 
+    return <Outlet /> 
 }
 export default PublicRoute

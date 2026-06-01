@@ -6,7 +6,6 @@ import type { LoginUser } from "../../../models/LoginUser"
 import * as z from "zod"
 import { toast } from "react-toastify"
 import "./LoginForm.css"
-import { required } from "zod/mini"
 
 type FormErros = {
     email: string,
@@ -79,8 +78,9 @@ export default function RegisterForm(){
         if(valido) {
             const user: LoginUser = { "email": formdata.email, "senha": formdata.senha}
             const result = await accountService.login(user)
-            authService.saveUser(result.email)
             authService.saveToken(result.token)
+            const nomeUsuario = await accountService.getUsername(result.id)
+            authService.saveUser(nomeUsuario)
             toast("Login feito com sucesso!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -89,9 +89,10 @@ export default function RegisterForm(){
                 theme: "light"
             })
             if(result.admin){
+                console.log("EhAdmin")
                 navigate("/admin")
             } else {
-                navigate("/login")
+                navigate("/main")
             }
         }
         else {
