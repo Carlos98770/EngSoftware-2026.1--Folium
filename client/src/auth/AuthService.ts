@@ -19,13 +19,17 @@ export class AuthService{
         localStorage.setItem(this.STORAGE_KEY, token)
     }
 
-    public saveUser(userEmail: string): void{
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(userEmail))
+    public saveUser(username: string): void{
+        localStorage.setItem(this.SERVER_USER, username)
     }
 
     public removeStoragedData(): void{
         localStorage.removeItem(this.STORAGE_KEY)
         localStorage.removeItem(this.SERVER_USER)
+    }
+
+    public getUser(): string {
+        return localStorage.getItem(this.SERVER_USER) ?? ""
     }
 }
 export const authService = new AuthService()

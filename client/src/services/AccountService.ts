@@ -6,20 +6,20 @@ import { jwtDecode } from "jwt-decode";
 const API_URL: string = "http://localhost:3000"
 
 interface tokenParts {
-  sub: string,
+  id: number,
   role: string,
   exp: Date
 }
 
 const getHeaders = () => ({
   "Content-Type": "application/json",
-  "Authorization": `Bearer ${localStorage.getItem("token") ?? ""}`
+  "Authorization": `Bearer ${localStorage.getItem("server.token") ?? ""}`
 })
 
-const registerUser = async(user: RegistroUser): Promise<UserResponse> => {
-  const response = await fetch(API_URL + "/create", {
+const registrar = async(user: RegistroUser): Promise<UserResponse> => {
+  const response = await fetch(API_URL + "/usuarios", {
     method: "POST",
-    headers: getHeaders(),
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user)
   })
 
@@ -30,7 +30,11 @@ const registerUser = async(user: RegistroUser): Promise<UserResponse> => {
     throw new Error("Erro ao registrar")
   }
 
-  return login(user)
+  const data = await response.json()
+  const token = data.token
+  const { id, role } = tokenDecode(token)
+
+  return {"id": id, "token": token, "admin": false}
 }
 
 const login = async (user: LoginUser): Promise<UserResponse> => {
@@ -40,25 +44,38 @@ const login = async (user: LoginUser): Promise<UserResponse> => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({"email": user.email, "senha": user.senha})
   })
-  
+
   const data = await tokenResponse.json()
   const token = data.token
-  const { sub, role } = tokenDecode(token)
+  const { id, role } = tokenDecode(token)
 
   if (!tokenResponse.ok) {
     throw new Error("Erro no login")
   }
 
   const isAdmin = role.includes("ADMIN")
-  console.log(isAdmin)
-  return {"email": sub, "token": token, "admin": isAdmin}
+  return {"id": id, "token": token, "admin": isAdmin}
 }
 
 const tokenDecode = (token: string): tokenParts => {
   const decodedToken = jwtDecode<tokenParts>(token)
   //console.log(decodedToken)
   //O SUB NÃO EXISTE NESSE TOKEN
-  return {"sub": decodedToken.sub, "role": decodedToken.role, "exp": decodedToken.exp}
+  return {"id": decodedToken.id, "role": decodedToken.role, "exp": decodedToken.exp}
 }
 
-export const accountService = { login, registerUser }
+const getUsername = async (id: number) => {
+  const response = await fetch(`${API_URL}/usuarios/${id}`, {
+    method: "GET",
+    headers: getHeaders(),
+  })
+
+  if(!response.ok){
+    throw new Error("Erro ao encontrar um usuario")
+  }
+
+  const data = await response.json()
+  return data.nome ?? ""
+}
+
+export const accountService = { login, registrar, getUsername }
