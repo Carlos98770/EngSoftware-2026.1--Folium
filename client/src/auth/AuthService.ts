@@ -12,7 +12,15 @@ export class AuthService{
     }
 
     public adminLogged(){
-        return localStorage.getItem(this.ADMIN_KEY) ?? ''
+        return !!localStorage.getItem(this.ADMIN_KEY)
+    }
+
+    public saveAdmin(isAdmin: boolean): void {
+    if (isAdmin) {
+        localStorage.setItem(this.ADMIN_KEY, 'true')
+    } else {
+        localStorage.removeItem(this.ADMIN_KEY)
+    }
     }
 
     public saveToken(token: string): void{
