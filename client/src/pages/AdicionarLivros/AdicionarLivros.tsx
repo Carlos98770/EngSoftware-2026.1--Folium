@@ -10,7 +10,6 @@ type FormErros = {
     editora: string,
     comentario: string,
     quantidade_total: string,
-    quantidade_disponivel: string,
 }
 
 export default function AdicionarPage() {
@@ -19,7 +18,6 @@ export default function AdicionarPage() {
         editora: "",
         comentario: "",
         quantidade_total: 0,
-        quantidade_disponivel: 0,
     })
 
     const onChangeFormData = (evt) => {
@@ -35,7 +33,6 @@ export default function AdicionarPage() {
         editoraRef: useRef<HTMLInputElement>(null),
         comentarioRef: useRef<HTMLInputElement>(null),
         quantidadeRef: useRef<HTMLInputElement>(null),
-        quantidadedispRef: useRef<HTMLInputElement>(null),
     }
 
     const [erros, setErrors] = useState<FormErros>({
@@ -43,7 +40,6 @@ export default function AdicionarPage() {
         editora: "",
         comentario: "",
         quantidade_total: "",
-        quantidade_disponivel: "",
     })
 
     const livroInput = z.object({
@@ -51,7 +47,6 @@ export default function AdicionarPage() {
         editora: z.string().min(1, "A editora é obrigatória").max(255, "Editora excede 255 caracteres"),
         comentario: z.string().max(200, "Comentário excede 200 caracteres").optional(),
         quantidade_total: z.coerce.number().min(1, "A quantidade deve ser maior que 0"),
-        quantidade_disponivel: z.coerce.number().min(1, "A quantidade deve ser maior que 0"),
     })
 
     const validateForm = async (formdata) => {
@@ -64,14 +59,13 @@ export default function AdicionarPage() {
                 editora: livroErros.properties.editora?.errors[0] ?? "",
                 comentario: livroErros.properties.comentario?.errors[0] ?? "",
                 quantidade_total: livroErros.properties.quantidade_total?.errors[0] ?? "",
-                quantidade_disponivel: livroErros.properties.quantidade_total?.errors[0] ?? "",
             }
             setErrors(mensagens)
             return { valido: false, messagens: mensagens }
         }
 
-        setErrors({ nome: "", editora: "", comentario: "", quantidade_total: "" , quantidade_disponivel: ""})
-        return { valido: true, messagens: { nome: "", editora: "", comentario: "", quantidade_total: "", quantidade_disponivel: "" } }
+        setErrors({ nome: "", editora: "", comentario: "", quantidade_total: ""})
+        return { valido: true, messagens: { nome: "", editora: "", comentario: "", quantidade_total: ""} }
     }
 
     const formBlurs = async (evt) => {
@@ -87,9 +81,8 @@ export default function AdicionarPage() {
         const { valido, messagens } = await validateForm(formdata)
         console.log(authService.getUserId())
         if (valido) {
-            const userId = authService.getUserId() // ajuste conforme seu AuthService
             await LivroService.create({ nome: formdata.nome, editora: formdata.editora, comentario: formdata.comentario
-                , quantidade_total: formdata.quantidade_total, quantidade_disponivel: formdata.quantidade_disponivel })
+                , quantidade_total: formdata.quantidade_total, quantidade_disponivel: formdata.quantidade_total })
             toast("Livro adicionado com sucesso!", {
                 position: "top-right",
                 autoClose: 5000,

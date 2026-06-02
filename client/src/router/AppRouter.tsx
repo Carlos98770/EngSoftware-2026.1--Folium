@@ -16,12 +16,12 @@ export default function AppRouter() {
         <Routes>
             <Route element={<PublicRoute />}>
                     <Route path="/registrar" element={<RegistroPage />} />
-                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/login" element={<LoginPage />} />  
             </Route>
             <Route path="/main" element={<MainPage/>}/>
             <Route element={<PrivateRoute/>}>
                     <Route path="/admin" element={<AdminPage/>}/>
-                    <Route path="/admin/adicionar" element={<AdicionarPage/>}/>
+                    <Route path="/adicionar" element={<AdicionarPage/>}/>
             </Route>
             <Route path="*" element={<Navigate to="/main" replace />}/>
         </Routes>

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { PesquisaService } from "../../services/PesquisaService"
 import DashboardDisponivel from "../../components/Dashboards/DashboardDisponivel" 
 import "./AdminPage.css"
-import BotaoAdmin from "../../components/Botoes/Livro/BotaoLivro"
 
 
 type Livro = {
