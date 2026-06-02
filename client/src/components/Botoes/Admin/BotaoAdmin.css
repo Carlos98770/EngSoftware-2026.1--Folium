@@ -1,0 +1,54 @@
+/* Container que segura os dois botões juntos */
+.ContainerBotaoLogin {
+    position: absolute;
+    top: 30px; /* Alinhado na mesma altura do título DASHBOARD que está na esquerda */
+    right: 40px; /* Joga tudo para a extrema direita */
+    display: flex;
+    gap: 12px; /* Espaço entre um botão e outro */
+    z-index: 10; /* Garante que os botões fiquem clicáveis por cima de outros elementos */
+}
+
+/* Estilo geral compartilhado por ambos os botões */
+.ContainerBotaoLogin button {
+    padding: 10px 18px;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Botão de Adicionar Livros (Verde) */
+.BotaoAdicionar {
+    background-color: #28a745;
+    color: white;
+}
+
+.BotaoAdicionar:hover {
+    background-color: #218838;
+    transform: translateY(-2px); /* Efeito sutil de subir ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(40, 167, 69, 0.2);
+}
+
+.BotaoAdicionar:active {
+    transform: translateY(0);
+}
+
+/* Botão de Alterar Estoque (Azul/Grafite discreto para contrastar) */
+.BotaoAlterar {
+    background-color: #438fe5;
+    color: white;
+}
+
+.BotaoAlterar:hover {
+    background-color: #2b77cc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(67, 143, 229, 0.2);
+}
+
+.BotaoAlterar:active {
+    transform: translateY(0);
+}
