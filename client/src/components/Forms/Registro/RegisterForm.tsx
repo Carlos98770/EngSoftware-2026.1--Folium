@@ -5,7 +5,7 @@ import { accountService } from "../../../services/AccountService"
 import type { RegistroUser } from "../../../models/RegistroUser"
 import * as z from "zod"
 import { toast } from "react-toastify"
-//import "./LoginForm.css"
+import "./RegistroForm.css"
 
 type FormErros = {
     email: string,
@@ -54,20 +54,22 @@ export default function RegisterForm(){
             .max(30, "O nome deve ter no máximo 30 caracteres"),
             senha: z.string().min(6, "A senha deve ter no minimo 6 caracteres")
             .max(50,"A senha excede o limite de 50 caracteres"),
-            senhaConf: z.string().min(1, "A confirmação é obrigatória")
+            senhaConfirmacao: z.string().min(1, "A confirmação é obrigatória")
             .max(50,"A confirmação excede o limite de 50 caracteres")
-    }).refine((input) => input.senha === input.senhaConf, "A senha e a confirmação não conferem")
+    }).refine((input) => input.senha === input.senhaConfirmacao, "A senha e a confirmação não conferem")
 
     const validateForm = async(formdata) => {
         const validacao = registroInput.safeParse(formdata)
+        console.log(formdata.senhaConfirmacao)
 
         if(!validacao.success){
+
             const registroErros = z.treeifyError(validacao.error) //.flatten().fieldErrors
             const mensagens: FormErros = {
             email: registroErros.properties.email?.errors[0] ?? "",
             nome: registroErros.properties.nome?.errors[0] ?? "",
             senha: registroErros.properties.senha?.errors[0] ?? "",
-            senhaConfirmacao: registroErros.properties.senhaConf?.errors[0] ?? ""
+            senhaConfirmacao: registroErros.properties.senhaConfirmacao?.errors[0] ?? ""
         }
         setErrors(mensagens)
         return { valido: false, messagens: mensagens }
@@ -89,7 +91,7 @@ export default function RegisterForm(){
     const handleRegistroClick = async() => {
         const { valido, messagens } = await validateForm(formdata)
         if(valido) {
-            const user: RegistroUser = { "email": formdata.email, "nome": formdata.nome, "senha": formdata.senha}
+            const user: RegistroUser = {"nome": formdata.nome, "email": formdata.email, "senha": formdata.senha}
             const result = await accountService.registrar(user)
             authService.saveToken(result.token)
             const nomeUsuario = await accountService.getUsername(result.id)
@@ -140,55 +142,33 @@ export default function RegisterForm(){
             <form action="" id="formRegistro">
                 <h4>Crie a sua conta:</h4>
                 
-                {/* 1. Email */}
                 <div className="EmailForm">
                     <label htmlFor="email">Email:</label>
-                    <input 
-                        id="email" 
-                        type="email" /* Mudado para 'email' que é mais semântico */
-                        value={formdata.email} 
-                        onChange={onChangeFormData} 
+                    <input id="email" type="email" value={formdata.email} onChange={onChangeFormData} 
                         onBlur={formBlurs} 
                         ref={inputRefs.emailRef}
                     />
                 </div>
 
-                {/* 2. Nome */}
                 <div className="NomeForm">
                     <label htmlFor="nome">Nome:</label>
-                    <input 
-                        id="nome" 
-                        type="text" 
-                        value={formdata.nome} 
-                        onChange={onChangeFormData} 
-                        onBlur={formBlurs} 
+                    <input id="nome" type="text" value={formdata.nome} onChange={onChangeFormData} onBlur={formBlurs} 
                         ref={inputRefs.nomeRef}
                     />
                 </div>
 
-                {/* 3. Senha */}
                 <div className="SenhaForm">
                     <label htmlFor="senha">Senha:</label>
-                    <input 
-                        type="password" 
-                        id="senha" 
-                        value={formdata.senha} 
-                        onChange={onChangeFormData} 
-                        onBlur={formBlurs} 
+                    <input type="password" id="senha" value={formdata.senha} onChange={onChangeFormData} onBlur={formBlurs} 
                         ref={inputRefs.senhaRef}
                     />
                 </div>
 
-                {/* 4. Confirmação de Senha */}
                 <div className="SenhaConfirmForm">
                     <label htmlFor="senhaConfirmacao">Confirmar Senha:</label>
-                    <input 
-                        type="password" 
-                        id="senhaConfirmacao" 
-                        value={formdata.senhaConfirmacao} 
-                        onChange={onChangeFormData} 
+                    <input type="password" id="senhaConfirmacao" value={formdata.senhaConfirmacao} onChange={onChangeFormData} 
                         onBlur={formBlurs} 
-                        ref={inputRefs.senhaConfirmRef} /* Usando a ref solicitada */
+                        ref={inputRefs.senhaConfirmRef} 
                     />
                 </div>
             </form>
@@ -207,7 +187,7 @@ export default function RegisterForm(){
                 <div>
                     <ul>
                         {messagens.map((error, index) => (
-                            <li key={index}>{error}</li> /* Adicionado key apenas por boa prática do React */
+                            <li key={index}>{error}</li>
                         ))} 
                     </ul>
                 </div>

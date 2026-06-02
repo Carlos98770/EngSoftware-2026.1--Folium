@@ -1,11 +1,11 @@
-import { Navigate } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 import { authService } from "../auth/AuthService"
 
-const PrivateRoute = ({component: Component, ...props}) => {
+const PrivateRoute = () => {
     const isAuthenticated = authService.adminLogged()
     if(isAuthenticated){
-        return <Component/>
+        return <Outlet/>
     }
-    return <Navigate to="/"></Navigate>
+    return <Navigate to="/login"></Navigate>
 } 
 export default PrivateRoute
