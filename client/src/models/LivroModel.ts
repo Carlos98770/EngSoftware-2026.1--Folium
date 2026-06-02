@@ -1,4 +1,8 @@
 export type Livro = {
-    titulo: string,
-    disponivel: boolean
+    nome: string,
+    editora: string,
+    comentario: string,
+    quantidade_total: number,
+    quantidade_disponivel: number,
+    user_id: number
 }

@@ -6,6 +6,7 @@ import PrivateRoute from "./PrivateRoute";
 import MainPage from "../pages/MainPage";
 import AdminPage from "../pages/Admin/AdminPage"
 import RegistroPage from "../pages/RegistroPage";
+import AdicionarPage from "../pages/Admin/AdicionarLivros/AdicionarLivros";
 
 //const MainPage = lazy(() => import("../pages/MainPage"))
 
@@ -20,6 +21,7 @@ export default function AppRouter() {
             <Route path="/main" element={<MainPage/>}/>
             <Route element={<PrivateRoute/>}>
                     <Route path="/admin" element={<AdminPage/>}/>
+                    <Route path="/admin/adicionar" element={<AdicionarPage/>}/>
             </Route>
             <Route path="*" element={<Navigate to="/main" replace />}/>
         </Routes>

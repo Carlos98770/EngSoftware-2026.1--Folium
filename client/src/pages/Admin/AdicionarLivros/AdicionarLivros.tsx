@@ -1,9 +1,9 @@
 import { useState, useRef } from "react"
 import { authService } from "../../../auth/AuthService"
-import { livroService } from "../../../services/LivroService"
+import { LivroService } from "../../../services/LivroService"
 import * as z from "zod"
 import { toast } from "react-toastify"
-import "./LoginForm.css"
+//import "./LoginForm.css"
 
 type FormErros = {
     nome: string,
@@ -13,7 +13,7 @@ type FormErros = {
     quantidade_disponivel: string,
 }
 
-export default function LivroForm() {
+export default function AdicionarPage() {
     const [formdata, setFormData] = useState({
         nome: "",
         editora: "",
@@ -85,9 +85,11 @@ export default function LivroForm() {
 
     const handleSubmitClick = async () => {
         const { valido, messagens } = await validateForm(formdata)
+        console.log(authService.getUserId())
         if (valido) {
             const userId = authService.getUserId() // ajuste conforme seu AuthService
-            await livroService.create({ ...formdata, user_id: userId })
+            await LivroService.create({ nome: formdata.nome, editora: formdata.editora, comentario: formdata.comentario
+                , quantidade_total: formdata.quantidade_total, quantidade_disponivel: formdata.quantidade_disponivel, user_id: userId })
             toast("Livro adicionado com sucesso!", {
                 position: "top-right",
                 autoClose: 5000,
