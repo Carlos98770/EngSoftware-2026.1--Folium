@@ -15,4 +15,13 @@ emprestimoRouter.post("/emprestimos/:id/return", authMiddleware, emprestimoContr
 // Admin only
 emprestimoRouter.patch("/emprestimos/:id/status", authMiddleware, adminMiddleware, emprestimoController.updateStatus);
 
+
+
+emprestimoRouter.get("/emprestimos/dashboard/availability", emprestimoController.getAcervoAvailability);
+emprestimoRouter.get("/emprestimos/dashboard/most-rented", emprestimoController.getMostRentedBooks);
+emprestimoRouter.get("/emprestimos/dashboard/status", emprestimoController.getRentalsStatus);
+emprestimoRouter.get("/emprestimos/dashboard/active-clients", emprestimoController.getActiveClients);
+emprestimoRouter.get("/emprestimos/dashboard/overdue-returns", emprestimoController.getOverdueReturns);
+
+
 export default emprestimoRouter;
