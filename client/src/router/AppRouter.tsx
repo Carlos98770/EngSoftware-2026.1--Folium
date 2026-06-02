@@ -21,7 +21,7 @@ export default function AppRouter() {
             <Route path="/main" element={<MainPage/>}/>
             <Route element={<PrivateRoute/>}>
                     <Route path="/admin" element={<AdminPage/>}/>
-                    <Route path="/adicionar" element={<AdicionarPage/>}/>
+                    <Route path="livro/adicionar" element={<AdicionarPage/>}/>
             </Route>
             <Route path="*" element={<Navigate to="/main" replace />}/>
         </Routes>

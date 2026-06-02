@@ -18,4 +18,16 @@ const create = async (livro: Livro) => {
     return data.data
 } 
 
-export const LivroService = { create }
+const update = async (livro: Livro, id: number) => {
+    const livroResponse = await fetch(`${API_URL}/livros/${id}`, {
+        method: "PUT",
+        headers: getHeaders(),
+        body: JSON.stringify(livro)
+    })
+
+    const data = await livroResponse.json()
+    return data.data
+} 
+
+
+export const LivroService = { create, update }
