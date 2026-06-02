@@ -7,7 +7,8 @@ import { validate } from "../middlewares/validator.middleware.js";
 const livroRouter = express.Router();
 
 // Públicas
-livroRouter.get("/livros", livroController.findAll);
+livroRouter.get("/livros", livroController.findByTitulo);
+livroRouter.get("/livros/all", livroController.findAll);
 livroRouter.get("/livros/:id", livroController.findById);
 
 // Autenticadas

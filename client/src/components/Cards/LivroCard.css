@@ -1,44 +1,61 @@
 .LivroCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border: 2.5px solid #438fe5;
-    border-radius: 15px;
-    padding: 20px;
-    width: 100%;
-    max-width: 250px;
-    background-color: #f8f9fa; /* Cinza bem claro/quase branco */
+    border-radius: 20px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+.LivroInfo {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    font-family: sans-serif;
+    gap: 8px;
 }
 
 .LivroTitulo {
     margin: 0;
-    font-size: 1.2rem;
-    color: #438fe5;       /* 1. Mudou para o azul padrão do seu projeto */
-    font-weight: 600;
-    align-self: flex-start; /* 2. Joga o título totalmente para a direita */
-    text-align: right;    /* Garante que se o título for longo e quebrar linha, ele alinhe à direita */
+    font-family: "Volkhov", sans-serif;
+    color: #438fe5;
+    font-size: 1.5rem;
 }
 
 .LivroStatus {
-    font-size: 0.85rem;
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 20px;
+    display: inline-block;
     width: fit-content;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-/* Verde para Disponível */
 .LivroStatus.disponivel {
-    background-color: rgba(40, 167, 69, 0.12); /* Fundo verde bem suave */
-    color: #28a745; /* Texto Verde */
+    background-color: rgba(40, 167, 69, 0.15);
+    color: #28a745;
 }
 
-/* Vermelho para Indisponível */
 .LivroStatus.indisponivel {
-    background-color: rgba(220, 53, 69, 0.12); /* Fundo vermelho bem suave */
-    color: #dc3545; /* Texto Vermelho */
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+}
+
+/* Novo Botão de Alterar dentro do Card */
+.BtnAlterarLivro {
+    padding: 10px 24px;
+    background-color: #438fe5;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.BtnAlterarLivro:hover {
+    opacity: 0.9;
 }

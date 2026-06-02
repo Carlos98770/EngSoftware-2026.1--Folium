@@ -79,6 +79,7 @@ export default function RegisterForm(){
             const user: LoginUser = { "email": formdata.email, "senha": formdata.senha}
             const result = await accountService.login(user)
             authService.saveToken(result.token)
+            authService.saveUserId(result.id)
             const nomeUsuario = await accountService.getUsername(result.id)
             authService.saveUser(nomeUsuario)
             toast("Login feito com sucesso!", {

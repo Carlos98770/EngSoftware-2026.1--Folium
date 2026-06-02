@@ -4,11 +4,11 @@
     top: 20px;
     right: 20px;
     display: inline-block;
-    z-index: 1000; /* Garante que fique acima de outros elementos */
+    z-index: 1000;
     font-family: sans-serif;
 }
 
-/* O botão principal com a cor solicitada */
+/* O botão principal "Administrador" */
 .BotaoLogado {
     background-color: #438fe5;
     color: white;
@@ -20,22 +20,19 @@
     font-size: 14px;
     display: flex;
     align-items: center;
-    gap: 8px; /* Espaço entre o nome e a setinha */
+    gap: 8px;
     transition: background-color 0.2s ease, transform 0.1s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Efeito de hover (passar o mouse) no botão */
 .BotaoLogado:hover {
-    background-color: #3572b6; /* Um tom mais escuro da sua cor */
+    background-color: #3572b6;
 }
 
-/* Pequeno efeito de clique */
 .BotaoLogado:active {
     transform: scale(0.98);
 }
 
-/* Estilo discreto para a setinha para baixo */
 .SetaMenu {
     font-size: 10px;
     opacity: 0.8;
@@ -45,38 +42,56 @@
 .MenuOpcoes {
     position: absolute;
     right: 0;
-    top: calc(100% + 8px); /* Fica exatamente abaixo do botão com um pequeno espaço */
-    background-color: white;
-    min-width: 160px;
+    top: calc(100% + 8px);
+    background-color: #ffffff;
+    min-width: 180px;
     border-radius: 6px;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12);
-    border: 1px solid #e2e8f0;
-    overflow: hidden; /* Garante que o hover dos botões respeite o border-radius */
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.15);
+    border: 1px solid #cbd5e1;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
-/* Botões de dentro do menu (Minha Conta / Sair) */
-.ItemMenu {
+/* Estilo base unificado para TODOS os botões internos */
+.MenuOpcoes button {
     background: none;
     border: none;
-    color: #333333;
     padding: 12px 16px;
     text-align: left;
     font-size: 14px;
+    font-family: sans-serif;
+    font-weight: 500;
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.15s ease;
+    transition: all 0.15s ease;
+    
+    /* Cor padrão idêntica para todos: Grafite escuro legível */
+    color: #1e293b !important; 
 }
 
-/* Hover nos itens do menu */
-.ItemMenu:hover {
-    background-color: #f8fafc;
-    color: #438fe5; /* Destaca com a cor do tema */
+/* --- PADRÃO DE HOVER UNIFICADO (IGUAL AO MINHA CONTA) --- */
+
+.ItemMenu:hover,
+.BotaoAdicionar:hover,
+.BotaoAlterar:hover {
+    background-color: #f1f5f9; /* Fundo cinza bem clarinho */
+    color: #438fe5 !important; /* Texto muda para o azul do tema */
 }
 
-/* Estilo opcional para dar um leve destaque de aviso no botão Sair */
+/* --- DETALHES DE DIVISÃO --- */
+
+/* Linha divisória sutil para separar os blocos de opções */
+.BotaoAdicionar {
+    border-top: 1px solid #f1f5f9;
+}
+
+/* O botão Sair continua isolado e com o hover vermelho sutil para segurança */
+.BotaoSair {
+    border-top: 1px solid #f1f5f9;
+}
+
 .BotaoSair:hover {
     background-color: #fff1f2;
-    color: #ef4444; /* Vermelho suave apenas no hover do Sair */
+    color: #ef4444 !important;
 }
