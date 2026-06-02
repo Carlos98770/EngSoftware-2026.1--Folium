@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 
 type Livro = {
     id: number;
-    nome: string;                 /* <-- Mudou de 'titulo' para 'nome' */
-    quantidade_disponivel: number; /* <-- Mudou de 'disponivel: boolean' para 'quantidade_disponivel: number' */
+    nome: string;                 
+    quantidade_disponivel: number; 
     editora: string;
     comentario: string;
 }
@@ -56,13 +56,12 @@ export default function PesquisaLivros() {
                 </button>
             </div>
 
-            {/* 2. Container onde os cards vão se alinhar */}
             <div className="LivrosGrid">
                 {livros.map((livro, index) => (
                 <LivroCard 
                 key={livro.id ?? index} 
-                titulo={livro.nome} // <-- Mapeia 'nome' para a propriedade 'titulo' do card
-                disponivel={livro.quantidade_disponivel > 0} // <-- Se for > 0, passa true, senão false
+                titulo={livro.nome} 
+                disponivel={livro.quantidade_disponivel > 0} 
                 />
             ))}
             </div>

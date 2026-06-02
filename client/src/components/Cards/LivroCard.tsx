@@ -25,7 +25,7 @@ export default function LivroCard({ titulo, disponivel }: LivroCardProps) {
         </button>
       </div>
 
-      <AdicionarModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AdicionarModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
     </>
   );
 }

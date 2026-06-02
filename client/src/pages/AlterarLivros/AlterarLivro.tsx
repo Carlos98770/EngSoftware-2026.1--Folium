@@ -92,15 +92,16 @@ export default function AlterarLivro({ isOpen, onClose }: AdicionarModalProps) {
             }, user_id)
             
             toast("Livro alterado com sucesso!", {
-                position: "top-right",
+                position: "top-center",
                 autoClose: 5000,
                 type: "success",
                 theme: "light"
             })
+
             onClose(); // Fecha o modal após o sucesso
         } else {
             toast("Campos preenchidos incorretamente.", {
-                position: "top-right",
+                position: "top-center",
                 autoClose: 5000,
                 type: "error",
                 theme: "light"
