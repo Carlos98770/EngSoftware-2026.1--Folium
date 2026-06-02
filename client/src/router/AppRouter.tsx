@@ -6,7 +6,7 @@ import PrivateRoute from "./PrivateRoute";
 import MainPage from "../pages/MainPage";
 import AdminPage from "../pages/Admin/AdminPage"
 import RegistroPage from "../pages/RegistroPage";
-import AdicionarPage from "../pages/Admin/AdicionarLivros/AdicionarLivros";
+import AdicionarPage from "../pages/AdicionarLivros/AdicionarLivros";
 
 //const MainPage = lazy(() => import("../pages/MainPage"))
 

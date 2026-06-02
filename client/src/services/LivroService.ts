@@ -2,11 +2,16 @@ import type { Livro } from "../models/LivroModel"
 
 const API_URL: string = "http://localhost:3000"
 
+const getHeaders = () => ({
+  "Content-Type": "application/json",
+  "Authorization": `Bearer ${localStorage.getItem("server.token") ?? ""}`
+})
+
 const create = async (livro: Livro) => {
-    const livroResponse = await fetch(API_URL+"/login", {
+    const livroResponse = await fetch(API_URL+"/livros", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({livro})
+        headers: getHeaders(),
+        body: JSON.stringify(livro)
     })
 
     const data = await livroResponse.json()

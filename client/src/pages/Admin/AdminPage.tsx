@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { PesquisaService } from "../../services/PesquisaService"
 import DashboardDisponivel from "../../components/Dashboards/DashboardDisponivel" 
 import "./AdminPage.css"
-import BotaoAdmin from "../../components/Botoes/Admin/BotaoAdmin"
+import BotaoAdmin from "../../components/Botoes/Livro/BotaoLivro"
 
 
 type Livro = {
@@ -44,8 +44,6 @@ export default function AdminPage(){
                     <DashboardDisponivel listaLivros={livros} />
                 )}
             </div>
-
-            <BotaoAdmin></BotaoAdmin>
         </div>
     )
 }
