@@ -1,5 +1,5 @@
 export type RegistroUser = {
-    email: string,
     nome: string,
+    email: string,
     senha: string,
 }

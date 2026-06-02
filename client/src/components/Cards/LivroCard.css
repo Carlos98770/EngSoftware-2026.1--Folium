@@ -1,0 +1,44 @@
+.LivroCard {
+    border: 2.5px solid #438fe5;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 250px;
+    background-color: #f8f9fa; /* Cinza bem claro/quase branco */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-family: sans-serif;
+}
+
+.LivroTitulo {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #438fe5;       /* 1. Mudou para o azul padrão do seu projeto */
+    font-weight: 600;
+    align-self: flex-start; /* 2. Joga o título totalmente para a direita */
+    text-align: right;    /* Garante que se o título for longo e quebrar linha, ele alinhe à direita */
+}
+
+.LivroStatus {
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Verde para Disponível */
+.LivroStatus.disponivel {
+    background-color: rgba(40, 167, 69, 0.12); /* Fundo verde bem suave */
+    color: #28a745; /* Texto Verde */
+}
+
+/* Vermelho para Indisponível */
+.LivroStatus.indisponivel {
+    background-color: rgba(220, 53, 69, 0.12); /* Fundo vermelho bem suave */
+    color: #dc3545; /* Texto Vermelho */
+}

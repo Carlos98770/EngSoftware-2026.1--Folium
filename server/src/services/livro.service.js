@@ -1,6 +1,7 @@
 import { Op } from 'sequelize'; // <-- Importação necessária para a busca por título
 import sequelize from '../database/config.js';
 import { Livro, User, Genero } from '../database/associations.js';
+import { Op } from 'sequelize';
 
 class LivroService {
     async create(dados, userId) {
@@ -126,6 +127,30 @@ class LivroService {
         }
 
         await livro.destroy();
+    }
+
+    async findByTitulo(titulo, page = 1, limit = 10) {
+    const offset = (page - 1) * limit;
+
+    const { rows: data, count: total } = await Livro.findAndCountAll({
+        where: {
+            nome: { [Op.like]: `%${titulo}%` }
+        },
+        include: [
+            { model: User, as: 'dono', attributes: ['id', 'nome', 'email'] },
+            { model: Genero, as: 'generos', attributes: ['id', 'nome'], through: { attributes: [] } },
+        ],
+        distinct: true,
+        limit,
+        offset,
+    });
+
+    return {
+        data,
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+    };
     }
 }
 

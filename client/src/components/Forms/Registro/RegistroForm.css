@@ -1,0 +1,126 @@
+/* Container Principal - Centraliza o card na tela */
+.MainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+    font-family: "Volkhov", sans-serif;
+    color: #438fe5;
+    padding: 20px; /* Evita que o card cole na tela em celulares */
+}
+
+/* Card do Formulário (Adaptado de .LoginForm) */
+.RegistroForm {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* Título (Adaptado de .LoginText) */
+.RegistroText {
+    font-family: "Volkhov";
+    text-align: center;
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #438fe5;
+}
+
+h4 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
+/* Estilização dos Containers dos Inputs */
+.EmailForm, 
+.NomeForm, 
+.SenhaForm, 
+.SenhaConfirmForm { /* Adicionado o campo de confirmação */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+input {
+    padding: 12px;
+    border: 2.5px solid #438fe5;
+    border-radius: 20px;
+    background-color: transparent;
+    color: black;
+    outline: none;
+    transition: box-shadow 0.2s ease;
+}
+
+input:focus {
+    box-shadow: 0 0 5px rgba(158, 58, 38, 0.4);
+}
+
+/* Seção de Botões (Adaptado de .ButtonsLoginForm) */
+.ButtonsRegistroForm {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 400px; /* Garante o mesmo tamanho do formulário */
+    display: flex;
+    justify-content: center;
+}
+
+/* Para o span que envolve o botão ocupar a largura total */
+.ButtonsRegistroForm span {
+    width: 100%;
+}
+
+/* Botão de Confirmação (Adaptado de .ConfirmLogin) */
+.ConfirmRegistro {
+    width: 100%;
+    padding-bottom: 18px;
+    padding-top: 18px;
+    padding-left: 28px;
+    padding-right: 28px;
+    background-color: #438fe5;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.ConfirmRegistro:hover {
+    opacity: 0.9;
+}
+
+/* Bloco de Mensagens de Erro */
+.MensagensErros {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 0.85rem;
+}
+
+.MensagensErros ul {
+    list-style: none;
+    padding: 0;
+}
+
+.MensagensErros li {
+    background-color: rgba(158, 58, 38, 0.1);
+    padding: 8px;
+    margin-bottom: 5px;
+    border-left: 4px solid #438fe5;
+    color: #438fe5; /* Mantém o texto no tom de azul do projeto */
+}
+
+.input-error {
+    border-color: #ff0000 !important;
+}

@@ -30,11 +30,13 @@ const registrar = async(user: RegistroUser): Promise<UserResponse> => {
     throw new Error("Erro ao registrar")
   }
 
-  const data = await response.json()
-  const token = data.token
-  const { id, role } = tokenDecode(token)
+  return login({email: user.email, senha: user.senha})
+  //const data = await response.json()
+  //const id = data.id
+  //const email = data.email
+  //const { id, role } = tokenDecode(token)
 
-  return {"id": id, "token": token, "admin": false}
+  //return {"id": id, "token": token, "admin": false}
 }
 
 const login = async (user: LoginUser): Promise<UserResponse> => {
@@ -46,6 +48,7 @@ const login = async (user: LoginUser): Promise<UserResponse> => {
   })
 
   const data = await tokenResponse.json()
+  console.log(data)
   const token = data.token
   const { id, role } = tokenDecode(token)
 
@@ -75,6 +78,7 @@ const getUsername = async (id: number) => {
   }
 
   const data = await response.json()
+  console.log(data)
   return data.nome ?? ""
 }
 
