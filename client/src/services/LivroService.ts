@@ -29,5 +29,13 @@ const update = async (livro: Livro, id: number) => {
     return data.data
 } 
 
+const deletar = async (id: number) => {
+  const response = await fetch(`${API_URL}/livros/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  })
+  if (!response.ok) throw new Error("Erro ao deletar")
+  return null
+}
 
-export const LivroService = { create, update }
+export const LivroService = { create, update, deletar }

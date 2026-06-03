@@ -15,9 +15,10 @@ type FormErros = {
 interface AdicionarModalProps {
     isOpen: boolean;
     onClose: () => void;
+    livro: { id: number; nome: string; comentario: string };
 }
 
-export default function AlterarLivro({ isOpen, onClose }: AdicionarModalProps) {
+export default function AlterarLivro({ isOpen, onClose, livro }: AdicionarModalProps) {
     const [formdata, setFormData] = useState({
         nome: "",
         editora: "",
@@ -82,14 +83,13 @@ export default function AlterarLivro({ isOpen, onClose }: AdicionarModalProps) {
     const handleSubmitClick = async () => {
         const { valido, messagens } = await validateForm(formdata)
         if (valido) {
-            const user_id = authService.getUserId()
             await LivroService.update({ 
                 nome: formdata.nome, 
                 editora: formdata.editora, 
                 comentario: formdata.comentario, 
                 quantidade_total: formdata.quantidade_total, 
                 quantidade_disponivel: formdata.quantidade_total
-            }, user_id)
+            }, livro.id)
             
             toast("Livro alterado com sucesso!", {
                 position: "top-center",
