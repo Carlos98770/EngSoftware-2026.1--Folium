@@ -1,14 +1,18 @@
-import Dashboard from "../../components/Dashboards/Dashboard"
-import "./AdminPage.css"
+import { useNavigate } from 'react-router-dom';
+import Dashboard from "../../components/Dashboards/Dashboard";
+import "./AdminPage.css";
 
-export default function AdminPage(){
-    return (
-        <div className="admin-page-container">
-            <h1 className="admin-title">DASHBOARD</h1>
+export default function AdminPage() {
+  const navigate = useNavigate();
 
-            <div className="dashboard-sunken-container">
-                <Dashboard />
-            </div>
-        </div>
-    )
+  return (
+    <div className="admin-page-container">
+      <h1 className="admin-title" onClick={() => navigate('/main')}>
+        ← DASHBOARD
+      </h1>
+      <div className="dashboard-sunken-container">
+        <Dashboard />
+      </div>
+    </div>
+  );
 }
