@@ -43,6 +43,13 @@ export default function PesquisaLivros() {
 
     return (
         <div className="PesquisaContainer">
+            <div className="PesquisaHero">
+                <span className="PesquisaEyebrow">Folium</span>
+                <h1 className="PesquisaTitulo">Encontre seu livro</h1>
+                <p className="PesquisaSubtitulo">
+                    Plataforma de gestão de empréstimos — cadastre livros, controle disponibilidade e gerencie empréstimos com facilidade.
+                </p>
+            </div>
             <div className="BarraPesquisa">
                 <input
                     ref={inputRef}
@@ -60,8 +67,11 @@ export default function PesquisaLivros() {
                 {livros.map((livro, index) => (
                 <LivroCard 
                 key={livro.id ?? index} 
+                id={livro.id}
                 titulo={livro.nome} 
                 disponivel={livro.quantidade_disponivel > 0} 
+                descricao={livro.comentario}
+                onDelete={(id) => setLivros(prev => prev.filter(l => l.id !== id))}
                 />
             ))}
             </div>
