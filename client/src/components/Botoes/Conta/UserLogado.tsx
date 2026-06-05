@@ -38,6 +38,15 @@ export default function UserLogado(){
         <button className="ItemMenu" onClick={() => navigate("/conta")}>
           Minha conta
         </button>
+        <button className="ItemMenu" onClick={() => navigate("/livro/adicionar")}>
+          Adicione Livros
+        </button>
+        <button className="ItemMenu" onClick={() => navigate("/livro/alterar")}>
+          Alterar Estoque
+        </button>
+        <button className="ItemMenu" onClick={() => navigate("/admin")}>
+          Dashboard
+        </button>
         <button className="ItemMenu BotaoSair" onClick={handleSair}>
           Sair
         </button>

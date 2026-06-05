@@ -1,8 +1,9 @@
 import sequelize from '../database/config.js';
 import { Emprestimo, Livro, User } from '../database/associations.js';
+import { Op } from 'sequelize';
 
 const includeCompleto = [
-    { model: Livro, as: 'livro', attributes: ['id', 'nome'] },
+    { model: Livro, as: 'livro', attributes: ['id', 'nome', 'editora', 'comentario', 'quantidade_total', 'quantidade_disponivel'] },
     { model: User, as: 'dono', attributes: ['id', 'nome', 'email'] },
     { model: User, as: 'receptor', attributes: ['id', 'nome', 'email'] },
 ];
@@ -122,6 +123,75 @@ class EmprestimoService {
         }
         await emprestimo.update({ status });
         return await this.findById(emprestimoId);
+    }
+
+    async getAcervoAvailability() {
+        const totalBooks = await Livro.sum('quantidade_total');
+        const availableBooks = await Livro.sum('quantidade_disponivel');
+        return { totalBooks, availableBooks };
+    }
+
+    async getMostRentedBooks() {
+        const mostRented = await Emprestimo.findAll({
+            attributes: [
+                'livro_id',
+                [sequelize.fn('COUNT', sequelize.col('livro_id')), 'rentCount']
+            ],
+            group: ['livro_id'],
+            order: [[sequelize.literal('rentCount'), 'DESC']],
+            limit: 5,
+            include: [{
+                model: Livro,
+                as: 'livro',
+                attributes: ['nome', 'editora']
+            }]
+        });
+        return mostRented;
+    }
+
+    async getRentalsStatus() {
+        const rentalsStatus = await Emprestimo.findAll({
+            attributes: [
+                'status',
+                [sequelize.fn('COUNT', sequelize.col('status')), 'count']
+            ],
+            group: ['status']
+        });
+        return rentalsStatus;
+    }
+
+    async getActiveClients() {
+        const activeClients = await Emprestimo.findAll({
+            attributes: [
+                'receptor_id',
+                [sequelize.fn('COUNT', sequelize.col('receptor_id')), 'rentalCount']
+            ],
+            group: ['receptor_id'],
+            order: [[sequelize.literal('rentalCount'), 'DESC']],
+            limit: 5,
+            include: [{
+                model: User,
+                as: 'receptor',
+                attributes: ['nome', 'email']
+            }]
+        });
+        return activeClients;
+    }
+
+    async getOverdueReturns() {
+        const overdueReturns = await Emprestimo.findAll({
+            where: {
+                data_devolucao: null,
+                data_fim: {
+                    [Op.lt]: new Date() 
+                },
+                status: {
+                    [Op.ne]: 'DEVOLVIDO' 
+                }
+            },
+            include: includeCompleto
+        });
+        return overdueReturns;
     }
 }
 

@@ -2,6 +2,7 @@ export class AuthService{
     private readonly STORAGE_KEY = 'server.token'
     private readonly SERVER_USER = 'server.user'
     private readonly ADMIN_KEY = 'server.admin'
+    private readonly USER_ID = 'server.userid'
 
     public userLogged(): boolean{
         return !!this.userToken()
@@ -38,6 +39,14 @@ export class AuthService{
 
     public getUser(): string {
         return localStorage.getItem(this.SERVER_USER) ?? ""
+    }
+
+    public saveUserId(id: number): void {
+    localStorage.setItem(this.USER_ID, String(id))
+    }
+
+    public getUserId(): number {
+    return Number(localStorage.getItem(this.USER_ID))
     }
 }
 export const authService = new AuthService()

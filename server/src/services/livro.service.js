@@ -1,7 +1,6 @@
 import { Op } from 'sequelize'; // <-- Importação necessária para a busca por título
 import sequelize from '../database/config.js';
 import { Livro, User, Genero } from '../database/associations.js';
-import { Op } from 'sequelize';
 
 class LivroService {
     async create(dados, userId) {
