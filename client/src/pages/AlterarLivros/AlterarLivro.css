@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@600&family=DM+Sans:wght@400;500;600&display=swap');
+
+.ModalOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(15, 40, 80, 0.45);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.AddBookCard {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 36px 28px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 60px rgba(67, 143, 229, 0.18);
+  border: 1.5px solid #d0e4f7;
+  overflow: hidden;
+}
+
+.AddBookCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #438fe5, #7ab8f0);
+}
+
+.ModalCloseBtn {
+  position: absolute;
+  top: 16px; right: 18px;
+  background: #f0f6fd;
+  border: none;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  color: #438fe5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.ModalCloseBtn:hover { background: #d8ecfc; }
+
+.AddBookTitle {
+  font-family: 'Lora', serif;
+  color: #438fe5;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.AddBookSubtitle {
+  color: #9eb5cc;
+  font-size: 0.825rem;
+  margin: 0 0 24px;
+}
+
+.FormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+
+.FormGroup label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5a7a96;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.FormGroup input {
+  padding: 10px 14px;
+  border: 1.5px solid #d0e4f7;
+  border-radius: 10px;
+  font-size: 0.925rem;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a2540;
+  background: #f7fafd;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.FormGroup input:focus {
+  border-color: #438fe5;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(67, 143, 229, 0.12);
+}
+.FormGroup input::placeholder { color: #b8cfe0; }
+
+.AddBookActions { margin-top: 8px; }
+
+.AddBookBtn {
+  width: 100%;
+  padding: 12px;
+  background: #438fe5;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.975rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+.AddBookBtn:hover { background: #2a7bd4; }
+.AddBookBtn:active { transform: scale(0.99); }
+
+.AddBookErrors { margin-top: 14px; }
+
+.AddBookErrors ul {
+  background: #fff2f3;
+  border: 1px solid #f5c0c4;
+  border-radius: 10px;
+  padding: 10px 14px;
+  list-style: none;
+  margin: 0;
+}
+.AddBookErrors li {
+  font-size: 0.8rem;
+  color: #c0392b;
+  padding: 2px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.AddBookErrors li::before { content: '•'; color: #e05260; }

@@ -79,8 +79,14 @@ export default function RegisterForm(){
             const user: LoginUser = { "email": formdata.email, "senha": formdata.senha}
             const result = await accountService.login(user)
             authService.saveToken(result.token)
+            authService.saveUserId(result.id)
             const nomeUsuario = await accountService.getUsername(result.id)
             authService.saveUser(nomeUsuario)
+
+            if(result.admin){
+                authService.saveAdmin(true)
+            } 
+
             toast("Login feito com sucesso!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -88,12 +94,8 @@ export default function RegisterForm(){
                 type: "success",
                 theme: "light"
             })
-            if(result.admin){
-                authService.saveAdmin(true)
-                navigate("/admin")
-            } else {
-                navigate("/main")
-            }
+
+            navigate("/main")
         }
         else {
             toast("Campos preenchidos incorretamente.", {

@@ -53,6 +53,51 @@ class EmprestimoController {
             next(error);
         }
     }
+
+    async getAcervoAvailability(req, res, next) {
+        try {
+            const availability = await emprestimoService.getAcervoAvailability();
+            return res.json(availability);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getMostRentedBooks(req, res, next) {
+        try {
+            const mostRented = await emprestimoService.getMostRentedBooks();
+            return res.json(mostRented);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getRentalsStatus(req, res, next) {
+        try {
+            const rentalsStatus = await emprestimoService.getRentalsStatus();
+            return res.json(rentalsStatus);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getActiveClients(req, res, next) {
+        try {
+            const activeClients = await emprestimoService.getActiveClients();
+            return res.json(activeClients);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async getOverdueReturns(req, res, next) {
+        try {
+            const overdueReturns = await emprestimoService.getOverdueReturns();
+            return res.json(overdueReturns);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 export default new EmprestimoController();

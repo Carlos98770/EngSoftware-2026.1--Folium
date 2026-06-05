@@ -1,0 +1,124 @@
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-wrapper {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.chart-card {
+  background-color: #ffffff;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  animation: fadeInUp 0.45s ease-out forwards;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  min-width: 0;
+}
+
+.chart-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.chart-card:nth-child(1) { animation-delay: 0.05s; }
+.chart-card:nth-child(2) { animation-delay: 0.10s; }
+.chart-card:nth-child(3) { animation-delay: 0.15s; }
+.chart-card:nth-child(4) { animation-delay: 0.20s; }
+.chart-card:nth-child(5) { animation-delay: 0.25s; }
+
+.card-availability { grid-column: span 2; }
+.card-status       { grid-column: span 1; }
+.card-most-rented,
+.card-active-clients,
+.card-overdue      { grid-column: span 1; }
+
+.chart-card h3 {
+  text-align: center;
+  margin: 0 0 14px;
+  color: #1a1a2e;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.chart-inner {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.card-overdue .chart-inner {
+  overflow-y: auto;
+  max-height: 360px;
+  flex-grow: 0;
+}
+
+.card-overdue .chart-inner::-webkit-scrollbar { width: 4px; }
+.card-overdue .chart-inner::-webkit-scrollbar-track { background: #f5f5f5; border-radius: 4px; }
+.card-overdue .chart-inner::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.card-overdue .chart-inner::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+.no-data {
+  text-align: center;
+  color: #aaa;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ── Responsivo ── */
+
+/* Tablet largo (1024px) — mantém 3 colunas mas reduz padding */
+@media (max-width: 1024px) {
+  .dashboard-wrapper { padding: 20px; }
+  .dashboard-grid    { gap: 16px; }
+}
+
+/* Tablet (900px) — 2 colunas, disponibilidade ocupa tudo */
+@media (max-width: 900px) {
+  .dashboard-grid         { grid-template-columns: repeat(2, 1fr); }
+  .card-availability      { grid-column: span 2; }
+  .card-status            { grid-column: span 1; }
+  .card-most-rented,
+  .card-active-clients,
+  .card-overdue           { grid-column: span 1; }
+}
+
+/* Mobile largo (640px) — 2 colunas compactas */
+@media (max-width: 640px) {
+  .dashboard-wrapper { padding: 12px; }
+  .dashboard-grid    { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .card-availability { grid-column: span 2; }
+  .card-status       { grid-column: span 2; }
+  .chart-card        { padding: 14px 16px; }
+  .chart-card h3     { font-size: 13px; margin-bottom: 10px; }
+}
+
+/* Mobile (480px) — 1 coluna */
+@media (max-width: 480px) {
+  .dashboard-grid    { grid-template-columns: 1fr; gap: 12px; }
+  .card-availability,
+  .card-status,
+  .card-most-rented,
+  .card-active-clients,
+  .card-overdue      { grid-column: span 1; }
+}

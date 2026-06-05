@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 
 type Livro = {
     id: number;
-    nome: string;                 /* <-- Mudou de 'titulo' para 'nome' */
-    quantidade_disponivel: number; /* <-- Mudou de 'disponivel: boolean' para 'quantidade_disponivel: number' */
+    nome: string;                 
+    quantidade_disponivel: number; 
     editora: string;
     comentario: string;
 }
@@ -43,6 +43,13 @@ export default function PesquisaLivros() {
 
     return (
         <div className="PesquisaContainer">
+            <div className="PesquisaHero">
+                <span className="PesquisaEyebrow">Folium</span>
+                <h1 className="PesquisaTitulo">Encontre seu livro</h1>
+                <p className="PesquisaSubtitulo">
+                    Plataforma de gestão de empréstimos — cadastre livros, controle disponibilidade e gerencie empréstimos com facilidade.
+                </p>
+            </div>
             <div className="BarraPesquisa">
                 <input
                     ref={inputRef}
@@ -56,13 +63,15 @@ export default function PesquisaLivros() {
                 </button>
             </div>
 
-            {/* 2. Container onde os cards vão se alinhar */}
             <div className="LivrosGrid">
                 {livros.map((livro, index) => (
                 <LivroCard 
                 key={livro.id ?? index} 
-                titulo={livro.nome} // <-- Mapeia 'nome' para a propriedade 'titulo' do card
-                disponivel={livro.quantidade_disponivel > 0} // <-- Se for > 0, passa true, senão false
+                id={livro.id}
+                titulo={livro.nome} 
+                disponivel={livro.quantidade_disponivel > 0} 
+                descricao={livro.comentario}
+                onDelete={(id) => setLivros(prev => prev.filter(l => l.id !== id))}
                 />
             ))}
             </div>
