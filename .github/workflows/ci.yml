@@ -21,6 +21,8 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies, build and test
+        env:
+          NODE_ENV: test
         run: |
           npm install
           npm run build

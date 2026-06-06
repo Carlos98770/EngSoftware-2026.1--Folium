@@ -11,5 +11,8 @@
     "dev": "npm run dev:client & npm run dev:server",
     "test": "npm run test -w server",
     "build": "npm run build -w client"
+  },
+  "devDependencies": {
+    "sqlite3": "^6.0.1"
   }
 }
