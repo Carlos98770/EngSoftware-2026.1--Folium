@@ -1,5 +1,4 @@
-import { lazy } from "react";
-import { useLocation, Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import PublicRoute  from "./PublicRoute"
 import LoginPage from "../pages/LoginPage"
 import PrivateRoute from "./PrivateRoute";

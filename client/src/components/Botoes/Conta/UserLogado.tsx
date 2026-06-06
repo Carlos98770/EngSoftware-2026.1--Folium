@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./BotaoLogado.css"
 
 export default function UserLogado(){
-    const userlogin = useState(false)
     const [menuAberto, setMenuAberto] = useState(false)
     const menuRef = useRef<HTMLDivElement>(null)
     const nomeUsuario = authService.getUser()
