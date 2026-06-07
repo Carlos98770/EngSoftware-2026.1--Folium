@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import request from 'supertest';
-import app from '../src/app.js';
-import sequelize from '../src/database/config.js';
-import authService from '../src/services/auth.service.js';
+import app from '../app.js';
+import sequelize from '../database/config.js';
+import authService from '../services/auth.service.js';
 
 describe('Teste de Integração: Fluxo Completo e Cobertura Ampliada (>75%)', () => {
     let tokenUser1, tokenUser2, tokenAdmin;

@@ -1,4 +1,4 @@
-import { Op } from 'sequelize'; // <-- Importação necessária para a busca por título
+import { Op } from 'sequelize'; 
 import sequelize from '../database/config.js';
 import { Livro, User, Genero } from '../database/associations.js';
 
@@ -16,16 +16,18 @@ class LivroService {
         });
 
         if (generos.length > 0) {
-            const registros = await Promise.all(
-                generos.map((nome) => Genero.findOrCreate({ where: { nome } }))
-            );
-            await livro.setGeneros(registros.map(([g]) => g));
+            // Correção: Loop sequencial para evitar travamento no SQLite
+            const registros = [];
+            for (const nome of generos) {
+                const [genero] = await Genero.findOrCreate({ where: { nome } });
+                registros.push(genero);
+            }
+            await livro.setGeneros(registros);
         }
 
         return await this.findById(livro.id);
     }
 
-    // <-- Adicionado o parâmetro 'busca' aqui
     async findAll(page = 1, limit = 10, genero = null, busca = null) {
         const offset = (page - 1) * limit;
 
@@ -99,10 +101,13 @@ class LivroService {
         await livro.update(camposSemGeneros);
 
         if (generos !== undefined) {
-            const registros = await Promise.all(
-                generos.map((nome) => Genero.findOrCreate({ where: { nome } }))
-            );
-            await livro.setGeneros(registros.map(([g]) => g));
+            // Correção: Loop sequencial para evitar travamento no SQLite
+            const registros = [];
+            for (const nome of generos) {
+                const [genero] = await Genero.findOrCreate({ where: { nome } });
+                registros.push(genero);
+            }
+            await livro.setGeneros(registros);
         }
 
         return await this.findById(id);
@@ -129,27 +134,27 @@ class LivroService {
     }
 
     async findByTitulo(titulo, page = 1, limit = 10) {
-    const offset = (page - 1) * limit;
+        const offset = (page - 1) * limit;
 
-    const { rows: data, count: total } = await Livro.findAndCountAll({
-        where: {
-            nome: { [Op.like]: `%${titulo}%` }
-        },
-        include: [
-            { model: User, as: 'dono', attributes: ['id', 'nome', 'email'] },
-            { model: Genero, as: 'generos', attributes: ['id', 'nome'], through: { attributes: [] } },
-        ],
-        distinct: true,
-        limit,
-        offset,
-    });
+        const { rows: data, count: total } = await Livro.findAndCountAll({
+            where: {
+                nome: { [Op.like]: `%${titulo}%` }
+            },
+            include: [
+                { model: User, as: 'dono', attributes: ['id', 'nome', 'email'] },
+                { model: Genero, as: 'generos', attributes: ['id', 'nome'], through: { attributes: [] } },
+            ],
+            distinct: true,
+            limit,
+            offset,
+        });
 
-    return {
-        data,
-        total,
-        page,
-        totalPages: Math.ceil(total / limit),
-    };
+        return {
+            data,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit),
+        };
     }
 }
 
