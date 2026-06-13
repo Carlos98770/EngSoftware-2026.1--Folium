@@ -4,4 +4,5 @@ export type Livro = {
     comentario: string,
     quantidade_total: number,
     quantidade_disponivel: number,
+    generos?: string[],
 }
