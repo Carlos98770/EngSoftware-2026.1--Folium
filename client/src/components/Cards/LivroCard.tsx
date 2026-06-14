@@ -15,7 +15,7 @@ interface LivroCardProps {
 export default function LivroCard({ id,titulo, disponivel, descricao, onDelete }: LivroCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const isAdmin = !authService.adminLogged();
+  const isAdmin = authService.adminLogged() && authService.userLogged();
 
   const handleDelete = async () => {
     if (!confirm(`Deseja excluir "${titulo}"?`)) return;

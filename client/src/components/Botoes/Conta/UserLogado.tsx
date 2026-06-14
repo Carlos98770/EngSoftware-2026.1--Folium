@@ -40,7 +40,7 @@ export default function UserLogado(){
         <button className="ItemMenu" onClick={() => navigate("/livro/adicionar")}>
           Adicione Livros
         </button>
-        {!authService.getUser() && (
+        {authService.adminLogged() && (
             <button className="ItemMenu" onClick={() => navigate("/admin")}>
                 Dashboard
             </button>
