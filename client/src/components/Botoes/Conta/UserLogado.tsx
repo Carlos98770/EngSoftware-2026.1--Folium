@@ -34,18 +34,17 @@ export default function UserLogado(){
 
     {menuAberto && (
       <div className="MenuOpcoes">
-        <button className="ItemMenu" onClick={() => navigate("/conta")}>
-          Minha conta
+        <button className="ItemMenu" onClick={() => navigate("/emprestimos")}>
+          Emprestimos
         </button>
         <button className="ItemMenu" onClick={() => navigate("/livro/adicionar")}>
           Adicione Livros
         </button>
-        <button className="ItemMenu" onClick={() => navigate("/livro/alterar")}>
-          Alterar Estoque
-        </button>
-        <button className="ItemMenu" onClick={() => navigate("/admin")}>
-          Dashboard
-        </button>
+        {!authService.getUser() && (
+            <button className="ItemMenu" onClick={() => navigate("/admin")}>
+                Dashboard
+            </button>
+        )}
         <button className="ItemMenu BotaoSair" onClick={handleSair}>
           Sair
         </button>

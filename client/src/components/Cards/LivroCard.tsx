@@ -8,6 +8,7 @@ interface LivroCardProps {
   titulo: string;
   disponivel: boolean;
   descricao: string;
+  ownerId: number;
   onDelete?: (id: number) => void;
 }
 

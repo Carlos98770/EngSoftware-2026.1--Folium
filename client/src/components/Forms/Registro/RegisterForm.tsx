@@ -6,15 +6,18 @@ import type { RegistroUser } from "../../../models/RegistroUser"
 import * as z from "zod"
 import { toast } from "react-toastify"
 import "./RegistroForm.css"
+import PageBackground from "../../pageBackground/PageBackground"
 
 type FormErros = {
-    email: string,
-    nome: string,
-    senha: string,
+    email: string
+    nome: string
+    senha: string
     senhaConfirmacao: string
 }
 
-export default function RegisterForm(){
+export default function RegisterForm() {
+    const navigate = useNavigate()
+
     const [formdata, setFormData] = useState({
         email: "",
         nome: "",
@@ -22,23 +25,6 @@ export default function RegisterForm(){
         senhaConfirmacao: ""
     })
 
-    const navigate = useNavigate()
-
-    const onChangeFormData = (evt) => {
-        const {id, value} = evt.target
-        setFormData(prev => ({
-            ...prev,
-            [id]: value
-        }))
-    }
-
-    const inputRefs = {
-        emailRef: useRef<HTMLInputElement>(null),
-        nomeRef: useRef<HTMLInputElement>(null),
-        senhaRef: useRef<HTMLInputElement>(null),
-        senhaConfirmRef: useRef<HTMLInputElement>(null),
-    }
-    
     const [erros, setErrors] = useState<FormErros>({
         email: "",
         nome: "",
@@ -46,70 +32,61 @@ export default function RegisterForm(){
         senhaConfirmacao: ""
     })
 
-    const registroInput = z.object({
-            email: z.string().min(1,"O campo de email é obrigatório").max(100, "O email excede o limite de 100 caracteres")
-            .refine((input) => input==="admin" || z.email().safeParse(input).success,
-        "Email inválido"),
-            nome: z.string().min(4, "O nome deve ter no minimo 4 caracters")
-            .max(30, "O nome deve ter no máximo 30 caracteres"),
-            senha: z.string().min(6, "A senha deve ter no minimo 6 caracteres")
-            .max(50,"A senha excede o limite de 50 caracteres"),
-            senhaConfirmacao: z.string().min(1, "A confirmação é obrigatória")
-            .max(50,"A confirmação excede o limite de 50 caracteres")
-    }).refine((input) => input.senha === input.senhaConfirmacao, "A senha e a confirmação não conferem")
-
-    const validateForm = async(formdata) => {
-        const validacao = registroInput.safeParse(formdata)
-        console.log(formdata.senhaConfirmacao)
-
-        if(!validacao.success){
-
-            const registroErros = z.treeifyError(validacao.error) //.flatten().fieldErrors
-            const mensagens: FormErros = {
-            email: registroErros.properties.email?.errors[0] ?? "",
-            nome: registroErros.properties.nome?.errors[0] ?? "",
-            senha: registroErros.properties.senha?.errors[0] ?? "",
-            senhaConfirmacao: registroErros.properties.senhaConfirmacao?.errors[0] ?? ""
-        }
-        setErrors(mensagens)
-        return { valido: false, messagens: mensagens }
-        }
-
-    setErrors({ email: "", nome: "", senha: "", senhaConfirmacao: "" })
-    return { valido: true, messagens: { email: "", nome: "", senha: "", senhaConfirmacao: "" } }
+    const inputRefs = {
+        emailRef: useRef<HTMLInputElement>(null),
+        nomeRef: useRef<HTMLInputElement>(null),
+        senhaRef: useRef<HTMLInputElement>(null),
+        senhaConfirmRef: useRef<HTMLInputElement>(null),
     }
 
-    const formBlurs = async(evt) => {
+    const registroInput = z.object({
+        email: z.string().min(1, "O campo de email é obrigatório").max(100, "O email excede o limite de 100 caracteres")
+            .refine((input) => input === "admin" || z.email().safeParse(input).success, "Email inválido"),
+        nome: z.string().min(4, "O nome deve ter no mínimo 4 caracteres")
+            .max(30, "O nome deve ter no máximo 30 caracteres"),
+        senha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres")
+            .max(50, "A senha excede o limite de 50 caracteres"),
+        senhaConfirmacao: z.string().min(1, "A confirmação é obrigatória")
+            .max(50, "A confirmação excede o limite de 50 caracteres")
+    }).refine((input) => input.senha === input.senhaConfirmacao, "A senha e a confirmação não conferem")
+
+    const validateForm = async (data: typeof formdata) => {
+        const validacao = registroInput.safeParse(data)
+
+        if (!validacao.success) {
+            const registroErros = z.treeifyError(validacao.error)
+            const mensagens: FormErros = {
+                email: registroErros.properties.email?.errors[0] ?? "",
+                nome: registroErros.properties.nome?.errors[0] ?? "",
+                senha: registroErros.properties.senha?.errors[0] ?? "",
+                senhaConfirmacao: registroErros.properties.senhaConfirmacao?.errors[0] ?? ""
+            }
+            setErrors(mensagens)
+            return { valido: false, messagens: mensagens }
+        }
+
+        setErrors({ email: "", nome: "", senha: "", senhaConfirmacao: "" })
+        return { valido: true, messagens: { email: "", nome: "", senha: "", senhaConfirmacao: "" } }
+    }
+
+    const onChangeFormData = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = evt.target
+        setFormData(prev => ({ ...prev, [id]: value }))
+    }
+
+    const formBlurs = async (evt: React.FocusEvent<HTMLInputElement>) => {
         const { id, value } = evt.target
         setFormData(prev => {
-        const updated = { ...prev, [id]: value }
+            const updated = { ...prev, [id]: value }
             validateForm(updated)
             return updated
         })
     }
 
-    const handleRegistroClick = async() => {
+    const handleRegistroClick = async () => {
         const { valido, messagens } = await validateForm(formdata)
-        if(valido) {
-            const user: RegistroUser = {"nome": formdata.nome, "email": formdata.email, "senha": formdata.senha}
-            const result = await accountService.registrar(user)
-            authService.saveToken(result.token)
-            const nomeUsuario = await accountService.getUsername(result.id)
-            authService.saveUser(nomeUsuario)
-            if(result.admin){
-                console.log("EhAdmin")
-            }
-            toast("Registro feito com sucesso!", {
-                position: "top-right",
-                autoClose: 5000,
-                pauseOnHover: true,
-                type: "success",
-                theme: "light"
-            })
 
-            navigate("/main")
-        }
-        else {
+        if (!valido) {
             toast("Campos preenchidos incorretamente.", {
                 position: "top-right",
                 autoClose: 5000,
@@ -118,81 +95,191 @@ export default function RegisterForm(){
                 theme: "light"
             })
             Object.keys(messagens).forEach(field => {
-                if(messagens[field as keyof FormErros]){
-                    setFormData(prev => ({
-                        ...prev ,[field]:""
-                    }))
+                if (messagens[field as keyof FormErros]) {
+                    setFormData(prev => ({ ...prev, [field]: "" }))
                 }
+            })
+            return
+        }
+
+        try {
+            const user: RegistroUser = { nome: formdata.nome, email: formdata.email, senha: formdata.senha }
+            const result = await accountService.registrar(user)
+
+            authService.saveToken(result.token)
+            const nomeUsuario = await accountService.getUsername(result.id)
+            authService.saveUser(nomeUsuario)
+
+            if (result.admin) {
+                console.log("EhAdmin")
+            }
+
+            toast("Usuário cadastrado com sucesso!", {
+                position: "top-right",
+                autoClose: 2000,
+                pauseOnHover: true,
+                type: "success",
+                theme: "light",
+                onClose: () => navigate("/main")
+            })
+        } catch (error) {
+            console.error("Erro no registro:", error)
+            toast("Erro ao cadastrar usuário. Tente novamente.", {
+                position: "top-right",
+                autoClose: 5000,
+                pauseOnHover: true,
+                type: "error",
+                theme: "light"
             })
         }
     }
 
-    const mensagensErros = (erros: FormErros): string[] => {
-        const errosMessagens = Object.values(erros).filter(msg => msg !== "")
-        return errosMessagens
-    }
+    const mensagensErros = (e: FormErros): string[] =>
+        Object.values(e).filter(msg => msg !== "")
 
-    const messagens = mensagensErros(erros)
+    const mensagens = mensagensErros(erros)
 
     return (
-    <div className="MainContainer">
-        <div className="RegistroForm">
-            <h1 className="RegistroText">Registro</h1>
-            <form action="" id="formRegistro">
-                <h4>Crie a sua conta:</h4>
-                
-                <div className="EmailForm">
-                    <label htmlFor="email">Email:</label>
-                    <input id="email" type="email" value={formdata.email} onChange={onChangeFormData} 
-                        onBlur={formBlurs} 
-                        ref={inputRefs.emailRef}
-                    />
-                </div>
+        <>
+            <PageBackground />
 
-                <div className="NomeForm">
-                    <label htmlFor="nome">Nome:</label>
-                    <input id="nome" type="text" value={formdata.nome} onChange={onChangeFormData} onBlur={formBlurs} 
-                        ref={inputRefs.nomeRef}
-                    />
-                </div>
+            <div className="RegistroPage">
+                <div className="RegistroCard">
 
-                <div className="SenhaForm">
-                    <label htmlFor="senha">Senha:</label>
-                    <input type="password" id="senha" value={formdata.senha} onChange={onChangeFormData} onBlur={formBlurs} 
-                        ref={inputRefs.senhaRef}
-                    />
-                </div>
+                    {/* Cabeçalho */}
+                    <div className="RegistroHeader">
+                        <button className="RegistroBackBtn" onClick={() => navigate("/main")} aria-label="Voltar">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12" />
+                                <polyline points="12 19 5 12 12 5" />
+                            </svg>
+                        </button>
+                        <div className="RegistroHeaderIcon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </div>
+                        <div className="RegistroHeaderText">
+                            <h1>Registro</h1>
+                            <p>Crie a sua conta</p>
+                        </div>
+                    </div>
 
-                <div className="SenhaConfirmForm">
-                    <label htmlFor="senhaConfirmacao">Confirmar Senha:</label>
-                    <input type="password" id="senhaConfirmacao" value={formdata.senhaConfirmacao} onChange={onChangeFormData} 
-                        onBlur={formBlurs} 
-                        ref={inputRefs.senhaConfirmRef} 
-                    />
-                </div>
-            </form>
-        </div>
+                    {/* Corpo */}
+                    <div className="RegistroBody">
 
-        <div className="ButtonsRegistroForm">
-            <span>
-                <button className="ConfirmRegistro" onClick={handleRegistroClick}>
-                    Registrar
-                </button>
-            </span>
-        </div>
+                        {/* Email */}
+                        <div className="FormGroup">
+                            <label htmlFor="email">Email</label>
+                            <div className="InputWrap">
+                                <svg className="InputIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    value={formdata.email}
+                                    placeholder="Ex: seu@email.com"
+                                    onChange={onChangeFormData}
+                                    onBlur={formBlurs}
+                                    ref={inputRefs.emailRef}
+                                    className={erros.email ? "input-error" : ""}
+                                />
+                            </div>
+                        </div>
 
-        <div className="MensagensErros">
-            {messagens.length > 0 && (
-                <div>
-                    <ul>
-                        {messagens.map((error, index) => (
-                            <li key={index}>{error}</li>
-                        ))} 
-                    </ul>
+                        {/* Nome */}
+                        <div className="FormGroup">
+                            <label htmlFor="nome">Nome</label>
+                            <div className="InputWrap">
+                                <svg className="InputIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                <input
+                                    id="nome"
+                                    type="text"
+                                    value={formdata.nome}
+                                    placeholder="Ex: João Silva"
+                                    onChange={onChangeFormData}
+                                    onBlur={formBlurs}
+                                    ref={inputRefs.nomeRef}
+                                    className={erros.nome ? "input-error" : ""}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Senha */}
+                        <div className="FormGroup">
+                            <label htmlFor="senha">Senha</label>
+                            <div className="InputWrap">
+                                <svg className="InputIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                <input
+                                    id="senha"
+                                    type="password"
+                                    value={formdata.senha}
+                                    placeholder="Mínimo 6 caracteres"
+                                    onChange={onChangeFormData}
+                                    onBlur={formBlurs}
+                                    ref={inputRefs.senhaRef}
+                                    className={erros.senha ? "input-error" : ""}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Confirmar Senha */}
+                        <div className="FormGroup">
+                            <label htmlFor="senhaConfirmacao">Confirmar Senha</label>
+                            <div className="InputWrap">
+                                <svg className="InputIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M9 12l2 2 4-4" />
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                <input
+                                    id="senhaConfirmacao"
+                                    type="password"
+                                    value={formdata.senhaConfirmacao}
+                                    placeholder="Repita a senha"
+                                    onChange={onChangeFormData}
+                                    onBlur={formBlurs}
+                                    ref={inputRefs.senhaConfirmRef}
+                                    className={erros.senhaConfirmacao ? "input-error" : ""}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="FormDivider" />
+
+                        {/* Botão */}
+                        <button className="RegistroBtn" onClick={handleRegistroClick}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="8.5" cy="7" r="4" />
+                                <line x1="20" y1="8" x2="20" y2="14" />
+                                <line x1="23" y1="11" x2="17" y2="11" />
+                            </svg>
+                            Registrar
+                        </button>
+
+                        {/* Erros */}
+                        {mensagens.length > 0 && (
+                            <div className="RegistroErrors">
+                                <ul>
+                                    {mensagens.map((error, index) => (
+                                        <li key={index}>{error}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            )}
-        </div>
-    </div>
-)
+            </div>
+        </>
+    )
 }
-
