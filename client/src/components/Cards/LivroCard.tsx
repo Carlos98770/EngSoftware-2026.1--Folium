@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import AdicionarModal from '../../pages/AlterarLivros/AlterarLivro'; // Ajuste o caminho se necessário
 import './LivroCard.css';
 import { LivroService } from '../../services/LivroService';
+import { authService } from '../../auth/AuthService';
 
 interface LivroCardProps {
   id: number
   titulo: string;
   disponivel: boolean;
   descricao: string;
-  ownerId: number;
   onDelete?: (id: number) => void;
 }
 
 export default function LivroCard({ id,titulo, disponivel, descricao, onDelete }: LivroCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const isAdmin = !authService.adminLogged();
 
   const handleDelete = async () => {
     if (!confirm(`Deseja excluir "${titulo}"?`)) return;
@@ -34,12 +36,17 @@ export default function LivroCard({ id,titulo, disponivel, descricao, onDelete }
           {disponivel ? 'Disponível' : 'Indisponível'}
         </span>
         <div className="CardActions">
-            <button className="BtnAlterarLivro" onClick={() => setIsModalOpen(true)}>
-              Alterar
-            </button>
-            <button className="BtnDeletarLivro" onClick={handleDelete}>
-              Excluir
-            </button>
+                                    {isAdmin && (
+                            <button className="BtnAlterarLivro" onClick={() => setIsModalOpen(true)}>
+                                Alterar
+                            </button>
+                        )}
+                        {isAdmin && (
+                            <button className="BtnDeletarLivro" onClick={handleDelete}>
+                                Excluir
+                            </button>
+                        )}
+
           </div>
       </div>
     </div>

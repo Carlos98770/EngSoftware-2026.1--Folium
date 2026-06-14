@@ -82,7 +82,7 @@ export default function PesquisaLivros() {
             </div>
 
             <div className="LivrosGrid">
-                {livros.map((livro, index) => (
+                {livros.slice(0, 4).map((livro, index) => (
                 <LivroCard 
                 key={livro.id ?? index} 
                 id={livro.id}
