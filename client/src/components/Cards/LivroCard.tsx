@@ -26,6 +26,7 @@ export default function LivroCard({ id,titulo, disponivel, descricao, onDelete }
   return (
   <>
     <div className="LivroCard">
+      <span className="LivroIdBadge">#{id}</span>
       <div className="LivroInfo">
         <h3 className="LivroTitulo">{titulo}</h3>
         <p className="LivroDescricao">{descricao}</p>
