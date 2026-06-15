@@ -1,127 +1,230 @@
-.MainContainer {
+.RegistroPage {
+    position: fixed;
+    inset: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    font-family: "Inter", "Volkhov", sans-serif;
+    z-index: 1;
+}
+
+.RegistroCard {
+    width: 100%;
+    max-width: 440px;
     background-color: #ffffff;
-    font-family: "Volkhov", sans-serif;
-    color: #438fe5;
-    padding: 20px;
-    box-sizing: border-box;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
 }
 
-.RegistroForm {
-    width: 100%;
-    max-width: 400px;
-    background-color: #f8f9fa;
-    padding: 40px 30px 10px 30px;
-    border-radius: 12px 12px 0 0;
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04), 4px 0 16px rgba(0, 0, 0, 0.04), -4px 0 16px rgba(0, 0, 0, 0.04);
+/* ── Cabeçalho ── */
+.RegistroHeader {
+    background-color: #438fe5;
+    padding: 28px 32px 24px;
     display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
 }
 
-.RegistroText {
-    font-family: "Volkhov";
-    text-align: center;
-    font-size: 2.5rem;
-    margin-top: 0;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #438fe5;
-}
-
-h4 {
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 25px;
-    font-weight: 400;
-    font-size: 1.1rem;
-}
-
-.EmailForm, .NomeForm, .SenhaForm, .SenhaConfirmForm {
+/* ── Botão voltar ── */
+.RegistroBackBtn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-input {
-    padding: 12px;
-    border: 2.5px solid #438fe5;
-    border-radius: 20px;
-    background-color: transparent;
-    color: black;
-    outline: none;
-    transition: box-shadow 0.2s ease;
-}
-
-input:focus {
-    box-shadow: 0 0 5px rgba(158, 58, 38, 0.4);
-}
-
-.ButtonsRegistroForm {
-    width: 100%;
-    max-width: 400px;
-    background-color: #f8f9fa;
-    padding: 0 30px 40px 30px;
-    border-radius: 0 0 12px 12px;
-    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.08), 4px 0 16px rgba(0, 0, 0, 0.04), -4px 0 16px rgba(0, 0, 0, 0.04);
-    display: flex;
+    align-items: center;
     justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+}
+
+.RegistroBackBtn:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.RegistroBackBtn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #ffffff;
+}
+
+/* ── Ícone do header ── */
+.RegistroHeaderIcon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.RegistroHeaderIcon svg {
+    width: 22px;
+    height: 22px;
+    stroke: #ffffff;
+}
+
+/* ── Texto do header ── */
+.RegistroHeaderText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.RegistroHeaderText h1 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 3px;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+}
+
+.RegistroHeaderText p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+/* ── Corpo ── */
+.RegistroBody {
+    padding: 28px 32px 32px;
+}
+
+/* ── Grupo de campo ── */
+.FormGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.FormGroup label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #6b7280;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+/* ── Input com ícone ── */
+.InputWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.InputWrap .InputIcon {
+    position: absolute;
+    left: 12px;
+    width: 18px;
+    height: 18px;
+    stroke: #438fe5;
+    opacity: 0.7;
+    pointer-events: none;
+    flex-shrink: 0;
+}
+
+.InputWrap input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    color: #111827;
+    outline: none;
     box-sizing: border-box;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
-.ButtonsRegistroForm span {
-    width: 100%;
+.InputWrap input::placeholder {
+    color: #9ca3af;
 }
 
-.ConfirmRegistro {
+.InputWrap input:focus {
+    border-color: #438fe5;
+    background-color: #ffffff;
+}
+
+.InputWrap input.input-error {
+    border-color: #ef4444;
+    background-color: #fff5f5;
+}
+
+/* ── Divisor ── */
+.FormDivider {
+    height: 1px;
+    background-color: #f3f4f6;
+    margin: 6px 0 24px;
+}
+
+/* ── Botão ── */
+.RegistroBtn {
     width: 100%;
-    padding: 18px 28px;
+    padding: 13px;
     background-color: #438fe5;
     color: #ffffff;
     border: none;
-    border-radius: 15px;
-    font-size: large;
-    font-weight: bold;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+    letter-spacing: 0.01em;
 }
 
-.ConfirmRegistro:hover {
-    opacity: 0.9;
+.RegistroBtn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #ffffff;
 }
 
-.MensagensErros {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 400px;
-    font-size: 0.85rem;
+.RegistroBtn:hover {
+    opacity: 0.88;
 }
 
-.MensagensErros ul {
+.RegistroBtn:active {
+    transform: scale(0.98);
+}
+
+/* ── Erros ── */
+.RegistroErrors {
+    margin-top: 16px;
+}
+
+.RegistroErrors ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.MensagensErros li {
-    background-color: rgba(158, 58, 38, 0.1);
-    padding: 8px;
-    margin-bottom: 5px;
-    border-left: 4px solid #438fe5;
-    color: #438fe5;
-}
-
-.input-error {
-    border-color: #ff0000 !important;
+.RegistroErrors li {
+    font-size: 12.5px;
+    color: #b91c1c;
+    background-color: #fef2f2;
+    border-left: 3px solid #ef4444;
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
 }

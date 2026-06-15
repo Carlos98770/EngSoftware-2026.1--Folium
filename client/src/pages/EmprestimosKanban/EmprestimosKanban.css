@@ -1,0 +1,471 @@
+.KanbanPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Inter", sans-serif;
+    box-sizing: border-box;
+}
+
+/* ── Cabeçalho ── */
+.KanbanHeader {
+    background-color: #438fe5;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.KanbanBackBtn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+}
+
+.KanbanBackBtn:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.KanbanBackBtn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #ffffff;
+}
+
+.KanbanHeaderIcon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.KanbanHeaderIcon svg {
+    width: 20px;
+    height: 20px;
+    stroke: #ffffff;
+}
+
+.KanbanHeaderText {
+    flex: 1;
+}
+
+.KanbanHeaderText h1 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 2px;
+}
+
+.KanbanHeaderText p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+}
+
+.KanbanHeaderActions {
+    display: flex;
+    gap: 10px;
+}
+
+.KanbanAddBtn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    background: #ffffff;
+    color: #438fe5;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.KanbanAddBtn:hover {
+    opacity: 0.88;
+}
+
+.KanbanAddBtn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #438fe5;
+}
+
+/* ── Board ── */
+.KanbanBoard {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 24px 32px;
+    box-sizing: border-box;
+    align-items: start;
+}
+
+/* ── Coluna ── */
+.KanbanColumn {
+    background: #f3f4f6;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 300px;
+}
+
+.KanbanColumnHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.KanbanColumnTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.KanbanColumnDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.KanbanColumnDot.ativo    { background-color: #438fe5; }
+.KanbanColumnDot.devolvido { background-color: #22c55e; }
+.KanbanColumnDot.atrasado  { background-color: #ef4444; }
+
+.KanbanColumnCount {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.07);
+    color: #6b7280;
+}
+
+/* ── Card de empréstimo ── */
+.EmpCard {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.15s ease;
+    width: 100%; /* Added */
+    box-sizing: border-box; /* Added */
+}
+
+.EmpCard:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.EmpCardBook {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.EmpCardBookIcon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(67, 143, 229, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.EmpCardBookIcon svg {
+    width: 16px;
+    height: 16px;
+    stroke: #438fe5;
+}
+
+.EmpCardBookInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.EmpCardBookName {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.EmpCardBookEditora {
+    font-size: 11.5px;
+    color: #9ca3af;
+    margin: 0;
+}
+
+.EmpCardMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.EmpCardMetaRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.EmpCardMetaRow svg {
+    width: 13px;
+    height: 13px;
+    stroke: #9ca3af;
+    flex-shrink: 0;
+}
+
+.EmpCardDivider {
+    height: 1px;
+    background: #f3f4f6;
+}
+
+.EmpCardFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.EmpCardBadge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.EmpCardBadge.ativo     { background: rgba(67,143,229,0.12); color: #1d6db5; }
+.EmpCardBadge.devolvido { background: rgba(34,197,94,0.12);  color: #15803d; }
+.EmpCardBadge.atrasado  { background: rgba(239,68,68,0.12);  color: #b91c1c; }
+
+.EmpCardBtn {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #e5e7eb;
+    background: transparent;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+}
+
+.EmpCardBtn:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.EmpCardBtn.devolver {
+    border-color: #438fe5;
+    color: #438fe5;
+}
+
+.EmpCardBtn.devolver:hover {
+    background: rgba(67,143,229,0.07);
+}
+
+/* ── Loading / vazio ── */
+.KanbanEmpty {
+    text-align: center;
+    padding: 32px 16px;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+.KanbanEmpty svg {
+    width: 32px;
+    height: 32px;
+    stroke: #d1d5db;
+    margin-bottom: 8px;
+}
+
+.KanbanLoading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* ── Modal de adicionar empréstimo ── */
+.ModalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.ModalCard {
+    background: #ffffff;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ModalHeader {
+    background: #438fe5;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ModalHeader h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.ModalCloseBtn {
+    background: rgba(255,255,255,0.18);
+    border: none;
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.ModalCloseBtn:hover { background: rgba(255,255,255,0.3); }
+
+.ModalCloseBtn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #fff;
+}
+
+.ModalBody {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ModalFormGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ModalFormGroup label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #6b7280;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.ModalFormGroup input {
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.ModalFormGroup input:focus {
+    border-color: #438fe5;
+    background: #ffffff;
+}
+
+.ModalFormGroup input.input-error {
+    border-color: #ef4444;
+}
+
+.ModalActions {
+    display: flex;
+    gap: 10px;
+    padding: 0 24px 24px;
+}
+
+.ModalCancelBtn {
+    flex: 1;
+    padding: 11px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+.ModalCancelBtn:hover { background: #f9fafb; }
+
+.ModalConfirmBtn {
+    flex: 2;
+    padding: 11px;
+    background: #438fe5;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.ModalConfirmBtn:hover { opacity: 0.88; }
+.ModalConfirmBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ModalError {
+    font-size: 12.5px;
+    color: #b91c1c;
+    background: #fef2f2;
+    border-left: 3px solid #ef4444;
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+}

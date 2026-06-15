@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom"
 import { authService } from "../auth/AuthService"
 
 const PrivateRoute = () => {
-    const isAuthenticated = authService.adminLogged()
+    const isAuthenticated = authService.userLogged()
     if(isAuthenticated){
         return <Outlet/>
     }

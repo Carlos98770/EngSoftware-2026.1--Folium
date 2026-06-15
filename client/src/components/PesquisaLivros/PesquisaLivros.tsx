@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { PesquisaService } from "../../services/PesquisaService";
 import LivroCard from "../Cards/LivroCard";
 import "./PesquisaLivros.css"
@@ -11,6 +11,17 @@ type Livro = {
     editora: string;
     comentario: string;
 }
+
+// Debounce utility function
+const debounce = (func: Function, delay: number) => {
+    let timeout: NodeJS.Timeout;
+    return function(this: any, ...args: any[]) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
+    };
+};
+
 export default function PesquisaLivros() {
     const [busca, setBusca] = useState("");
     const [livros, setLivros] = useState<Livro[]>([]);
@@ -18,15 +29,12 @@ export default function PesquisaLivros() {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const handlePesquisa = async () => {
-        if (!busca.trim()) return;
-
+    const handlePesquisa = useCallback(async (searchTerm: string) => {
         setCarregando(true);
-
-        const resultado: Livro[] = await PesquisaService(busca);
+        const resultado: Livro[] = await PesquisaService(searchTerm);
         console.log("Dados que vieram da API:", resultado);
 
-        if (resultado.length === 0) {
+        if (resultado.length === 0 && searchTerm !== "") { // Only show "not found" if there was a search term
             toast("Livros não encontrados.", {
                 position: "top-center",
                 autoClose: 5000,
@@ -34,11 +42,23 @@ export default function PesquisaLivros() {
                 type: "error",
                 theme: "light"
             })
-        } else {
-            setLivros(resultado);
         }
-
+        setLivros(resultado);
         setCarregando(false);
+    }, []);
+
+    // Debounced version of handlePesquisa
+    const debouncedPesquisa = useCallback(debounce(handlePesquisa, 500), [handlePesquisa]);
+
+    useEffect(() => {
+        // Initial load of all books when component mounts
+        handlePesquisa(""); 
+    }, [handlePesquisa]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setBusca(value);
+        debouncedPesquisa(value);
     };
 
     return (
@@ -55,16 +75,14 @@ export default function PesquisaLivros() {
                     ref={inputRef}
                     type="text"
                     value={busca}
-                    onChange={(e) => setBusca(e.target.value)}
+                    onChange={handleChange}
                     placeholder="Buscar livros..."
                 />
-                <button type="button" onClick={handlePesquisa} disabled={carregando}>
-                    {carregando ? "Buscando..." : "Pesquisar"}
-                </button>
+                 {carregando && <p>Buscando...</p>}
             </div>
 
             <div className="LivrosGrid">
-                {livros.map((livro, index) => (
+                {livros.slice(0, 4).map((livro, index) => (
                 <LivroCard 
                 key={livro.id ?? index} 
                 id={livro.id}

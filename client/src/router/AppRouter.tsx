@@ -6,6 +6,7 @@ import MainPage from "../pages/MainPage";
 import AdminPage from "../pages/Admin/AdminPage"
 import RegistroPage from "../pages/RegistroPage";
 import AdicionarPage from "../pages/AdicionarLivros/AdicionarLivros";
+import EmprestimosKanban from "../pages/EmprestimosKanban/EmprestimosKanban";
 
 //const MainPage = lazy(() => import("../pages/MainPage"))
 
@@ -21,6 +22,7 @@ export default function AppRouter() {
             <Route element={<PrivateRoute/>}>
                     <Route path="/admin" element={<AdminPage/>}/>
                     <Route path="livro/adicionar" element={<AdicionarPage/>}/>
+                    <Route path="emprestimos" element={<EmprestimosKanban/>}/>
             </Route>
             <Route path="*" element={<Navigate to="/main" replace />}/>
         </Routes>
