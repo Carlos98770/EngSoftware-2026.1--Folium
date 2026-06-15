@@ -35,6 +35,7 @@ export class AuthService{
     public removeStoragedData(): void{
         localStorage.removeItem(this.STORAGE_KEY)
         localStorage.removeItem(this.SERVER_USER)
+        localStorage.removeItem(this.ADMIN_KEY)
     }
 
     public getUser(): string {

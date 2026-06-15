@@ -48,7 +48,6 @@ const login = async (user: LoginUser): Promise<UserResponse> => {
   })
 
   const data = await tokenResponse.json()
-  console.log(data)
   const token = data.token
   const { id, role } = tokenDecode(token)
 

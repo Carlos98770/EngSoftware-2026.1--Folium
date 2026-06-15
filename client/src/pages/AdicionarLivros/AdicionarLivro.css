@@ -1,118 +1,287 @@
-.AddBookContainer {
+.AddBookPage {
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    background-color: #ffffff;
-    font-family: "Volkhov", sans-serif;
-    color: #438fe5;
-    padding: 20px;
+    padding: 2rem 1rem;
     box-sizing: border-box;
+    font-family: "Inter", "Volkhov", sans-serif;
 }
 
 .AddBookCard {
     width: 100%;
-    max-width: 400px;
-    background-color: #f8f9fa;
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    max-width: 440px;
+    background-color: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* ── Cabeçalho ── */
+.AddBookHeader {
+    background-color: #438fe5;
+    padding: 28px 32px 24px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 16px;
 }
 
-.AddBookTitle {
-    font-family: "Volkhov";
-    text-align: center;
-    font-size: 2rem; /* Reduzido para caber em uma linha só dentro do card */
-    margin-top: 0;
-    margin-bottom: 5px; /* Diminuído para aproximar o subtítulo de forma organizada */
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #438fe5;
+/* ── Botão voltar ── */
+.AddBookBackBtn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
 }
 
-#formLivro h4 {
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 25px;
+.AddBookBackBtn:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.AddBookBackBtn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #ffffff;
+}
+
+.AddBookHeaderIcon {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.AddBookHeaderIcon svg {
+    width: 22px;
+    height: 22px;
+    color: #ffffff;
+    stroke: #ffffff;
+}
+
+.AddBookHeaderText h1 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 3px;
+    letter-spacing: 0.01em;
+}
+
+.AddBookHeaderText p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
     font-weight: 400;
-    color: #438fe5;
-    font-size: 1.1rem; /* Define um tamanho fixo e controlado para o subtítulo */
 }
 
+/* ── Corpo do formulário ── */
+.AddBookBody {
+    padding: 28px 32px 32px;
+}
+
+/* ── Grupo de campo ── */
 .FormGroup {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    gap: 6px;
+    margin-bottom: 18px;
 }
 
 .FormGroup label {
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: #438fe5;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #6b7280;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
 }
 
-.FormGroup input {
-    padding: 12px;
-    border: 2.5px solid #438fe5;
-    border-radius: 20px;
-    background-color: transparent;
-    color: black;
-    outline: none;
-    transition: box-shadow 0.2s ease;
+.FormGroup label .optional {
+    font-size: 11px;
+    font-weight: 400;
+    color: #9ca3af;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
-.FormGroup input:focus {
-    box-shadow: 0 0 5px rgba(158, 58, 38, 0.4);
-}
-
-.AddBookActions {
-    margin-top: 10px;
-    width: 100%;
+/* ── Input com ícone ── */
+.InputWrap {
+    position: relative;
     display: flex;
-    justify-content: center;
+    align-items: center;
 }
 
+.InputWrap .InputIcon {
+    position: absolute;
+    left: 12px;
+    width: 18px;
+    height: 18px;
+    color: #438fe5;
+    opacity: 0.7;
+    pointer-events: none;
+    flex-shrink: 0;
+}
+
+.InputWrap input {
+    width: 100%;
+    padding: 10px 12px 10px 40px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    color: #111827;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.InputWrap input::placeholder {
+    color: #9ca3af;
+}
+
+.InputWrap input:focus {
+    border-color: #438fe5;
+    background-color: #ffffff;
+}
+
+.InputWrap input.input-error {
+    border-color: #ef4444;
+    background-color: #fff5f5;
+}
+
+/* Input sem ícone */
+.InputWrap.no-icon input {
+    padding-left: 12px;
+}
+
+/* ── Linha de dois campos lado a lado ── */
+.FormRowTwo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.FormRowTwo .FormGroup {
+    margin-bottom: 0;
+}
+
+/* ── Dica de quantidade ── */
+.QuantityHint {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    background: rgba(67, 143, 229, 0.07);
+    border: 1.5px solid rgba(67, 143, 229, 0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    align-self: flex-end;
+    margin-bottom: 0;
+}
+
+.QuantityHint svg {
+    width: 15px;
+    height: 15px;
+    color: #438fe5;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.QuantityHint span {
+    font-size: 11.5px;
+    color: #438fe5;
+    line-height: 1.4;
+}
+
+/* ── Divisor ── */
+.FormDivider {
+    height: 1px;
+    background-color: #f3f4f6;
+    margin: 6px 0 24px;
+}
+
+/* ── Botão de submit ── */
 .AddBookBtn {
     width: 100%;
-    padding: 18px 28px;
+    padding: 13px;
     background-color: #438fe5;
     color: #ffffff;
     border: none;
-    border-radius: 15px;
-    font-size: large;
-    font-weight: bold;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+    letter-spacing: 0.01em;
+}
+
+.AddBookBtn svg {
+    width: 18px;
+    height: 18px;
+    stroke: #ffffff;
 }
 
 .AddBookBtn:hover {
-    opacity: 0.9;
+    opacity: 0.88;
 }
 
+.AddBookBtn:active {
+    transform: scale(0.98);
+}
+
+/* ── Bloco de erros ── */
+/* ── Tags de gêneros ── */
+.GenerosTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.GeneroTag {
+    font-size: 12px;
+    font-weight: 500;
+    color: #438fe5;
+    background: rgba(67, 143, 229, 0.1);
+    border: 1px solid rgba(67, 143, 229, 0.25);
+    border-radius: 20px;
+    padding: 3px 10px;
+}
+
+/* ── Erros ── */
 .AddBookErrors {
-    margin-top: 20px;
-    width: 100%;
-    font-size: 0.85rem;
+    margin-top: 16px;
 }
 
 .AddBookErrors ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .AddBookErrors li {
-    background-color: rgba(158, 58, 38, 0.1);
-    padding: 8px;
-    margin-bottom: 5px;
-    border-left: 4px solid #438fe5;
-    color: #438fe5;
-}
-
-.input-error {
-    border-color: #ff0000 !important;
+    font-size: 12.5px;
+    color: #b91c1c;
+    background-color: #fef2f2;
+    border-left: 3px solid #ef4444;
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
 }
