@@ -61,23 +61,24 @@ export default function LoginForm() {
 
         setErrors({ email: "", senha: "" })
         return { valido: true, mensagens: { email: "", senha: "" } }
-    }
+        }
 
-    const onChangeFormData = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        const onChangeFormData = (evt: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = evt.target
         setFormData(prev => ({ ...prev, [id]: value }))
-    }
+        }
 
-    const formBlurs = async (evt: React.FocusEvent<HTMLInputElement>) => {
+        const formBlurs = async (evt: React.FocusEvent<HTMLInputElement>) => {
         const { id, value } = evt.target
         setFormData(prev => {
             const updated = { ...prev, [id]: value }
             validateForm(updated)
             return updated
         })
-    }
+        }
 
-    const handleLoginClick = async () => {
+        const handleLoginClick = async () => {
+        authService.saveAdmin(false) // Limpa o status de administrador antes de qualquer login
         const { valido, mensagens } = await validateForm(formdata)
 
         if (!valido) {
