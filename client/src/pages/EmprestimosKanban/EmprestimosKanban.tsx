@@ -228,11 +228,12 @@ export default function EmprestimosKanban() {
 
     // ID do usuário logado — filtra os empréstimos na API
     const usuarioId = authService.getUserId()
-
+    console.log(usuarioId)
     const carregar = async () => {
         try {
             setLoading(true)
             const data = await EmprestimoService.findAll({ receptor_id: usuarioId })
+            console.log(data)
             setEmprestimos(data)
         } catch (err) {
             console.error("Erro ao carregar empréstimos:", err)

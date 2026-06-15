@@ -17,7 +17,7 @@ class AuthService {
             erro.statusCode = 401;
             throw erro;
         }
-
+        
         const token = jwt.sign(
             { id: user.id, role: user.role },
             process.env.JWT_SECRET,

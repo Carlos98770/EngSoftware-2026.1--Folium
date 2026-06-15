@@ -113,7 +113,8 @@ export default function RegisterForm() {
             if (result.admin) {
                 console.log("EhAdmin")
             }
-
+            
+            authService.saveUserId(result.id)
             toast("Usuário cadastrado com sucesso!", {
                 position: "top-right",
                 autoClose: 2000,
